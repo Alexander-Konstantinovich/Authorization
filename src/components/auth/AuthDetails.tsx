@@ -1,6 +1,7 @@
 import React from "react"
 import { auth } from "../../fairbase"
 import { onAuthStateChanged, signOut } from "firebase/auth"
+import { Button } from "antd"
 
 const AuthDetails = () => {
   const [authUser, setAuthUser] = React.useState<any>(null)
@@ -26,7 +27,7 @@ const AuthDetails = () => {
       {authUser ? (
         <div>
           <p>{`Signed in as ${authUser.email}`}</p>
-          <button onClick={userSignOut}>Sign Out</button>
+          <Button type="primary" onClick={userSignOut}>Sign Out</Button>
         </div>
       ) : (
         <p>Signed Out</p>
