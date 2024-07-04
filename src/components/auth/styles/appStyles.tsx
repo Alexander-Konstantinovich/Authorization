@@ -1,3 +1,6 @@
+import styled, { keyframes } from "styled-components"
+import { createGlobalStyle } from "styled-components"
+
 export const layoutStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
@@ -27,4 +30,26 @@ export const contentStyle: React.CSSProperties = {
   color: '#fff',
 };
 
+export const GlobalStyle = createGlobalStyle`
+  body {
+  background-color:  #f6dfe3;
+  }
+`
 
+const glowingAnimation = keyframes`
+  0% {
+    color: #0feafa;
+  }
+  50% {
+    color: #fff;
+  }
+  100% {
+    color: #0feafa;
+  }
+`;
+
+export const Title = styled.h1`
+  font-size: 34px;
+  font-weight: bold;
+  animation: ${glowingAnimation} 5.5s linear infinite;
+`

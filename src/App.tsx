@@ -6,20 +6,12 @@ import {
   layoutStyle,
   headerStyle,
   contentStyle,
-} from "./components/auth/styles/flexStyles"
+} from "./components/auth/styles/appStyles"
 
-import styled from "styled-components"
-import { createGlobalStyle } from "styled-components"
-
+import { GlobalStyle, Title } from "./components/auth/styles/appStyles"
 import { Flex, Layout } from "antd"
 
 const { Header, Content } = Layout
-
-const GlobalStyle = createGlobalStyle`
-  body {
-  background-color:  #f6dfe3;
-  }
-`
 
 const App: React.FC = () => {
   return (
@@ -27,7 +19,7 @@ const App: React.FC = () => {
       <GlobalStyle />
       <Layout style={layoutStyle}>
         <Header style={headerStyle}>
-          <h1>React authorization</h1>
+          <Title>React authorization</Title>
         </Header>
         <Content style={contentStyle}>
           <SignUp />

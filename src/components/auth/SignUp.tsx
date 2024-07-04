@@ -3,7 +3,7 @@ import { auth } from "../../fairbase"
 import { Button, Form, Input } from "antd"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { setAddEmail, setAddError, setAddPassword, setAddCopyPassword } from "../../redux/user/slice";
-
+import { DivForm } from "./styles/userStyles";
 
 interface UserType  {
   email?: string;
@@ -33,13 +33,13 @@ const SignUp = () => {
       .catch(error => console.log(error))
   }
 
-
   return (
+    <DivForm>
     <Form
       name="basic"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600, marginTop: 40 }}
+      style={{ maxWidth: 600}}
       initialValues={{ remember: true }}
       onFinish={register}
       onFinishFailed={register}
@@ -88,6 +88,7 @@ const SignUp = () => {
         {error ? <p style={{color: 'red'}}>{error}</p>:''}
       </Form.Item>
     </Form>
+    </DivForm>
   )
 }
 
