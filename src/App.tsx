@@ -18,7 +18,7 @@ const layoutStyle: React.CSSProperties = {
 const headerStyle: React.CSSProperties = {
   textAlign: 'center',
   color: '#fff',
-  height: 64,
+  height: 94,
   paddingInline: 48,
   lineHeight: '64px',
   background: 'linear-gradient(to bottom, #0f3d48, #1f6578)',
@@ -38,7 +38,7 @@ const App: React.FC = () => {
   <div>
   <Flex gap="middle" wrap>
     <Layout style={layoutStyle}>
-      <Header style={headerStyle}><p>React authorization</p></Header>
+      <Header style={headerStyle}><h1>React authorization</h1></Header>
       <Content style={contentStyle}>
       <SignUp />
       <SignIn />

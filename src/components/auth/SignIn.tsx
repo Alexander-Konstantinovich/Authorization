@@ -1,6 +1,14 @@
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
 import { auth } from "../../fairbase"
+import { Button, Form, Input, message } from "antd"
+
+type UserType = {
+  email?: string
+  password?: string
+  copyPassword?: string
+  remember?: string
+}
 
 const SignIn = () => {
   const [email, setEmail] = useState("")
@@ -8,7 +16,6 @@ const SignIn = () => {
   const [error, setError] = useState("")
 
   function logIn(e:any) {
-    e.preventDefault()
     signInWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
@@ -16,32 +23,52 @@ const SignIn = () => {
         setEmail("")
         setPassword("")
       })
-      .catch(error => console.log(error));
+      .catch(error => (error.message));
 			setError('Sorry, couldn`t find your account')
   }
 
   return (
-    <div>
-      <form
-      onSubmit={logIn}>
-        <h2>Log in</h2>
-        <input
+    <Form
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      style={{ maxWidth: 600 }}
+      initialValues={{ remember: true }}
+      onFinish={logIn}
+      onFinishFailed={logIn}
+      autoComplete="off"
+    >
+      <Form.Item<UserType>
+        label="Email"
+        name="email"
+        rules={[{ required: true, message: "Please input your email!" }]}
+      >
+        <Input
           placeholder="Please enter your email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          type="email"
         />
-        <input
+      </Form.Item>
+
+      <Form.Item<UserType>
+        label="Password"
+        name="password"
+        rules={[{ required: true, message: "Please input your password!" }]}
+      >
+        <Input.Password
           placeholder="Please enter your password"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          type="password"
         />
+      </Form.Item>
 
-        <button onClick={logIn}>Login</button>
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit" onClick={logIn}>
+          Submit
+        </Button>
         {error ? <p style={{color: 'red'}}>{error}</p>:''}
-      </form>
-    </div>
+        </Form.Item>
+      </Form>
   )
 }
 

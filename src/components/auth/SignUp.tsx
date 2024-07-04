@@ -1,7 +1,6 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
 import { auth } from "../../fairbase"
-import type { FormProps } from "antd"
 import { Button, Form, Input } from "antd"
 
 type UserType = {
@@ -33,6 +32,7 @@ const SignUp = () => {
       .catch(error => console.log(error))
   }
 
+
   return (
     <Form
       name="basic"
@@ -47,7 +47,7 @@ const SignUp = () => {
       <Form.Item<UserType>
         label="Email"
         name="email"
-        rules={[{ required: true, message: "Please input your username!" }]}
+        rules={[{ required: true, message: "Please input your email!" }]}
       >
         <Input
           placeholder="Please enter your email"
@@ -71,7 +71,7 @@ const SignUp = () => {
       <Form.Item<UserType>
         label="Again password"
         name="copyPassword"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[{ required: true, message: "Please input your password again!" }]}
       >
         <Input.Password
           placeholder="Please enter your password again"
@@ -84,6 +84,7 @@ const SignUp = () => {
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
+        {error ? <p style={{color: 'red'}}>{error}</p>:''}
       </Form.Item>
     </Form>
   )

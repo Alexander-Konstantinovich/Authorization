@@ -3,6 +3,8 @@ import { auth } from "../../fairbase"
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { Button } from "antd"
 
+
+
 const AuthDetails = () => {
   const [authUser, setAuthUser] = React.useState<any>(null)
   React.useEffect(() => {

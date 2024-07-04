@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -11,9 +11,9 @@
   .App-logo {
     animation: App-logo-float infinite 3s ease-in-out;
   }
-}
+} */
 
-.App-header {
+/* .App-header {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,9 +23,9 @@
 }
 body{
   text-align: center;
-}
+} */
 
-.App-link {
+/* .App-link {
   color: rgb(112, 76, 182);
 }
 
@@ -39,4 +39,4 @@ body{
   100% {
     transform: translateY(0px);
   }
-}
+} */
