@@ -1,7 +1,10 @@
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { useState } from "react"
 import { auth } from "../../fairbase"
-import { Button, Form, Input, message } from "antd"
+import { Button, Form, Input } from "antd"
+
+import { useAppSelector, useAppDispatch } from "../../app/hooks"
+import { setAddEmail, setAddError, setAddPassword } from "../../redux/user/slice";
+import { selectUser } from "../../redux/user/selectors";
 
 type UserType = {
   email?: string
@@ -11,20 +14,20 @@ type UserType = {
 }
 
 const SignIn = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
 
-  function logIn(e:any) {
+  const {email, password, error} = useAppSelector(selectUser)
+  const dispatch = useAppDispatch();
+
+  function logIn() {
     signInWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
-        setError("")
-        setEmail("")
-        setPassword("")
+        setAddError("")
+        setAddEmail("")
+        setAddPassword("")
       })
       .catch(error => (error.message));
-			setError('Sorry, couldn`t find your account')
+			setAddError('Sorry, couldn`t find your account')
   }
 
   return (
@@ -32,10 +35,9 @@ const SignIn = () => {
       name="basic"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
+      style={{ maxWidth: 600, marginTop: 40 }}
       initialValues={{ remember: true }}
       onFinish={logIn}
-      onFinishFailed={logIn}
       autoComplete="off"
     >
       <Form.Item<UserType>
@@ -46,7 +48,7 @@ const SignIn = () => {
         <Input
           placeholder="Please enter your email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={e => dispatch(setAddEmail(e.target.value))}
         />
       </Form.Item>
 
@@ -58,7 +60,7 @@ const SignIn = () => {
         <Input.Password
           placeholder="Please enter your password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={e => dispatch(setAddPassword(e.target.value))}
         />
       </Form.Item>
 

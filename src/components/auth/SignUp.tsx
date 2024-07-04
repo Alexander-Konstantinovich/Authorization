@@ -1,33 +1,34 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import { useState } from "react"
 import { auth } from "../../fairbase"
 import { Button, Form, Input } from "antd"
+import { useAppSelector, useAppDispatch } from "../../app/hooks"
+import { setAddEmail, setAddError, setAddPassword, setAddCopyPassword } from "../../redux/user/slice";
 
-type UserType = {
-  email?: string
-  password?: string
-  copyPassword?: string
-  remember?: string
+
+interface UserType  {
+  email?: string;
+  password?: string;
+  copyPassword?: string;
+  remember?: string;
 }
 
 const SignUp = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [copyPassword, setCopyPassword] = useState("")
-  const [error, setError] = useState("")
+  const {email, password, error, copyPassword} = useAppSelector(state=>state.authorization)
+  const dispatch = useAppDispatch();
+
 
   function register() {
     if (password !== copyPassword) {
-      setError("Passwords didn`t match")
+      dispatch(setAddError("Passwords didn`t match"))
       return
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
-        setError("")
-        setEmail("")
-        setPassword("")
-        setCopyPassword("")
+        dispatch(setAddError(""))
+        dispatch(setAddEmail(""))
+        dispatch(setAddPassword(""))
+        dispatch(setAddCopyPassword(""))
       })
       .catch(error => console.log(error))
   }
@@ -38,7 +39,7 @@ const SignUp = () => {
       name="basic"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
+      style={{ maxWidth: 600, marginTop: 40 }}
       initialValues={{ remember: true }}
       onFinish={register}
       onFinishFailed={register}
@@ -52,7 +53,7 @@ const SignUp = () => {
         <Input
           placeholder="Please enter your email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={e => dispatch(setEmail(e.target.value))}
         />
       </Form.Item>
 
@@ -64,7 +65,7 @@ const SignUp = () => {
         <Input.Password
           placeholder="Please enter your password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={e => setAddPassword(e.target.value)}
         />
       </Form.Item>
 
@@ -76,7 +77,7 @@ const SignUp = () => {
         <Input.Password
           placeholder="Please enter your password again"
           value={copyPassword}
-          onChange={e => setCopyPassword(e.target.value)}
+          onChange={e => setAddCopyPassword(e.target.value)}
         />
       </Form.Item>
 
@@ -92,32 +93,6 @@ const SignUp = () => {
 
 export default SignUp
 
-
-
-
-{
-  /* <form
-      onSubmit={register}>
-        <h2>Create an account</h2>
-        <input
-          placeholder="Please enter your email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          type="email"
-        />
-        <input
-          placeholder="Please enter your password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          type="password"
-        />
-        <input
-          placeholder="Please enter your password again"
-          value={copyPassword}
-          onChange={e => setCopyPassword(e.target.value)}
-          type="password"
-        />
-        <button>Create</button>
-        {error ? <p style={{color: 'red'}}>{error}</p>:''}
-      </form> */
+function setEmail(arg0: string): any {
+  throw new Error("Function not implemented.");
 }

@@ -1,23 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit"
-
-interface InitialUser {
-  email: string
-  password: string
-  copyPassword: string
-}
+import type { PayloadAction} from "@reduxjs/toolkit"
+import type { InitialUser } from "./types"
 
 const initialState: InitialUser = {
   email: "",
   password: "",
   copyPassword: "",
+  error: "",
 }
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-		setAddUser(state, action){
-			
-		}
+		setAddEmail(state, action: PayloadAction<string>){
+			state.email = action.payload
+		},
+    setAddPassword(state, action: PayloadAction<string>){
+			state.password = action.payload
+		},
+    setAddCopyPassword(state, action: PayloadAction<string>){
+			state.password = action.payload
+		},
+    setAddError(state, action: PayloadAction<string>){
+			state.error = action.payload
+		},
 	},
 })
+
+export const {setAddEmail, setAddPassword, setAddError, setAddCopyPassword} = userSlice.actions
+export default userSlice.reducer

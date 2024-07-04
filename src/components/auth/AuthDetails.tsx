@@ -11,7 +11,7 @@ const AuthDetails = () => {
     const listen = onAuthStateChanged(auth, (user:any) => {
       if (user) {
         setAuthUser(user)
-      } else {
+      } else { 
         setAuthUser(null)
       }
     })

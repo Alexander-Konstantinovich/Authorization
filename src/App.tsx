@@ -2,64 +2,41 @@ import "./App.css"
 import AuthDetails from "./components/auth/AuthDetails"
 import SignIn from "./components/auth/SignIn"
 import SignUp from "./components/auth/SignUp"
+import {
+  layoutStyle,
+  headerStyle,
+  contentStyle,
+} from "./components/auth/styles/flexStyles"
 
-import { Flex, Layout } from 'antd';
+import styled from "styled-components"
+import { createGlobalStyle } from "styled-components"
 
-const { Header, Content } = Layout;
+import { Flex, Layout } from "antd"
 
-const layoutStyle: React.CSSProperties = {
-  borderRadius: 8,
-  overflow: 'hidden',
-  width: 'calc(100%)',
-  maxWidth: 'calc(100%)',
-  background: 'linear-gradient(135deg, #1f6578, #1ea187, #f4d6db)',
-};
+const { Header, Content } = Layout
 
-const headerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  height: 94,
-  paddingInline: 48,
-  lineHeight: '64px',
-  background: 'linear-gradient(to bottom, #0f3d48, #1f6578)',
-};
-
-const contentStyle: React.CSSProperties = {
-  textAlign: 'center',
-  minHeight: 120,
-  lineHeight: '120px',
-  color: '#fff',
-};
-
-
+const GlobalStyle = createGlobalStyle`
+  body {
+  background-color:  #f6dfe3;
+  }
+`
 
 const App: React.FC = () => {
-  return(
-  <div>
-  <Flex gap="middle" wrap>
-    <Layout style={layoutStyle}>
-      <Header style={headerStyle}><h1>React authorization</h1></Header>
-      <Content style={contentStyle}>
-      <SignUp />
-      <SignIn />
-     <AuthDetails />
-      </Content>
-    </Layout>
+  return (
+    <Flex gap="middle" wrap>
+      <GlobalStyle />
+      <Layout style={layoutStyle}>
+        <Header style={headerStyle}>
+          <h1>React authorization</h1>
+        </Header>
+        <Content style={contentStyle}>
+          <SignUp />
+          <SignIn />
+          <AuthDetails />
+        </Content>
+      </Layout>
+    </Flex>
+  )
+}
 
-    
-  </Flex>
-  </div>
-)};
-
-
-
-
-
-// const App = () => {
-//   return <div>
-//     <SignUp />
-//     <SignIn />
-//     <AuthDetails />
-//   </div>
-// }
 export default App
