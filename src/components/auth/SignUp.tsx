@@ -2,20 +2,25 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
 import { Button, Form, Input } from "antd"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
-import { setAddEmail, setAddError, setAddPassword, setAddCopyPassword } from "../../redux/user/slice";
-import { DivForm } from "./styles/userStyles";
+import {
+  setAddEmail,
+  setAddError,
+  setAddPassword,
+  setAddCopyPassword,
+} from "../../redux/signUp/slice"
+import { selectSignUp } from "../../redux/signUp/selectors"
+import { DivForm } from "./styles/userStyles"
 
-interface UserType  {
-  email?: string;
-  password?: string;
-  copyPassword?: string;
-  remember?: string;
+interface UserType {
+  email?: string
+  password?: string
+  copyPassword?: string
+  remember?: string
 }
 
 const SignUp = () => {
-  const {email, password, error, copyPassword} = useAppSelector(state=>state.authorization)
-  const dispatch = useAppDispatch();
-
+  const { email, password, error, copyPassword } = useAppSelector(selectSignUp)
+  const dispatch = useAppDispatch()
 
   function register() {
     if (password !== copyPassword) {
@@ -30,70 +35,70 @@ const SignUp = () => {
         dispatch(setAddPassword(""))
         dispatch(setAddCopyPassword(""))
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log(error.message))
   }
 
   return (
     <DivForm>
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600}}
-      initialValues={{ remember: true }}
-      onFinish={register}
-      onFinishFailed={register}
-      autoComplete="off"
-    >
-      <Form.Item<UserType>
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: "Please input your email!" }]}
+      <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        style={{ maxWidth: 600 }}
+        initialValues={{ remember: true }}
+        onFinish={register}
+        onFinishFailed={register}
+        autoComplete="off"
       >
-        <Input
-          placeholder="Please enter your email"
-          value={email}
-          onChange={e => dispatch(setEmail(e.target.value))}
-        />
-      </Form.Item>
+        <Form.Item<UserType>
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: "Please input your email!" }]}
+        >
+          <Input
+            placeholder="Please enter your email"
+            value={email}
+            onChange={e => dispatch(setAddEmail(e.target.value))}
+          />
+        </Form.Item>
 
-      <Form.Item<UserType>
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password
-          placeholder="Please enter your password"
-          value={password}
-          onChange={e => setAddPassword(e.target.value)}
-        />
-      </Form.Item>
+        <Form.Item<UserType>
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.Password
+            placeholder="Please enter your password"
+            value={password}
+            onChange={e => dispatch(setAddPassword(e.target.value))}
+          />
+        </Form.Item>
 
-      <Form.Item<UserType>
-        label="Again password"
-        name="copyPassword"
-        rules={[{ required: true, message: "Please input your password again!" }]}
-      >
-        <Input.Password
-          placeholder="Please enter your password again"
-          value={copyPassword}
-          onChange={e => setAddCopyPassword(e.target.value)}
-        />
-      </Form.Item>
+        <Form.Item<UserType>
+          label="Again password"
+          name="copyPassword"
+          rules={[
+            { required: true, message: "Please input your password again!" },
+          ]}
+        >
+          <Input.Password
+            placeholder="Please enter your password again"
+            value={copyPassword}
+            onChange={e => dispatch(setAddCopyPassword(e.target.value))}
+          />
+        </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-        {error ? <p style={{color: 'red'}}>{error}</p>:''}
-      </Form.Item>
-    </Form>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+          {error ? <p style={{ color: "red" }}>{error}</p> : ""}
+        </Form.Item>
+      </Form>
     </DivForm>
   )
 }
 
 export default SignUp
 
-function setEmail(arg0: string): any {
-  throw new Error("Function not implemented.");
-}
+

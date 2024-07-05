@@ -7,8 +7,8 @@ import {
   setAddEmail,
   setAddError,
   setAddPassword,
-} from "../../redux/user/slice"
-import { selectUser } from "../../redux/user/selectors"
+} from "../../redux/signIn/slice"
+import { selectSignIn } from "../../redux/signIn/selectors"
 import { DivForm } from "./styles/userStyles"
 
 type UserType = {
@@ -19,19 +19,19 @@ type UserType = {
 }
 
 const SignIn = () => {
-  const { email, password, error } = useAppSelector(selectUser)
+  const { email, password, error } = useAppSelector(selectSignIn)
   const dispatch = useAppDispatch()
 
   function logIn() {
     signInWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
-        setAddError("")
-        setAddEmail("")
-        setAddPassword("")
+        dispatch(setAddError(""))
+        dispatch(setAddEmail(""))
+        dispatch(setAddPassword(""))
       })
-      .catch(error => error.message)
-    setAddError("Sorry, couldn`t find your account")
+      .catch(error => console.log(error.message))
+    dispatch(setAddError("Sorry, couldn`t find your account"))
   }
 
   return (

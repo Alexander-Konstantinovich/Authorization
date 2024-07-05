@@ -1,4 +1,4 @@
-export interface InitialUser {
+export interface InitialSignUp {
   email: string
   password: string
   copyPassword: string
