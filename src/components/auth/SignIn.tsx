@@ -1,6 +1,8 @@
+import React from "react"
+
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
-import { Button, Form, Input } from "antd"
+import { Button, Form, Input, Spin } from "antd"
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import {
@@ -9,7 +11,8 @@ import {
   setAddPassword,
 } from "../../redux/signIn/slice"
 import { selectSignIn } from "../../redux/signIn/selectors"
-import { DivForm } from "./styles/userStyles"
+import { DivButton, DivForm } from "./styles/userStyles"
+import { Link } from "react-router-dom"
 
 type UserType = {
   email?: string
@@ -19,19 +22,24 @@ type UserType = {
 }
 
 const SignIn = () => {
+  const [isLoading, setIsLoading] = React.useState(true)
   const { email, password, error } = useAppSelector(selectSignIn)
   const dispatch = useAppDispatch()
 
   function logIn() {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(user => {
-        console.log(user)
-        dispatch(setAddError(""))
-        dispatch(setAddEmail(""))
-        dispatch(setAddPassword(""))
-      })
-      .catch(error => console.log(error.message))
-    dispatch(setAddError("Sorry, couldn`t find your account"))
+    if (isLoading) {
+      setIsLoading(false)
+      signInWithEmailAndPassword(auth, email, password)
+        .then(user => {
+          console.log(user)
+          dispatch(setAddError(""))
+          dispatch(setAddEmail(""))
+          dispatch(setAddPassword(""))
+          setIsLoading(true)
+        })
+        .catch(error => console.log(error.message))
+      dispatch(setAddError("Sorry, couldn`t find your account"))
+    }
   }
 
   return (
@@ -70,9 +78,22 @@ const SignIn = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" onClick={logIn}>
-            Submit
-          </Button>
+          <DivButton>
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={logIn}
+              style={{ marginBottom: 20 }}
+            >
+              Submit
+            </Button>
+            {isLoading || <Spin style={{ marginBottom: 15 }} />}
+            <Link to="/registration" style={{ margin: "auto" }}>
+              <Button type="default" htmlType="button">
+                Authorization
+              </Button>
+            </Link>
+          </DivButton>
           {error ? <p style={{ color: "red" }}>{error}</p> : ""}
         </Form.Item>
       </Form>
