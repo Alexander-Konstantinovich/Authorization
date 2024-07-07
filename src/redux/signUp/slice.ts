@@ -20,7 +20,7 @@ const signUpSlice = createSlice({
 			state.password = action.payload
 		},
     setAddCopyPassword(state, action: PayloadAction<string>){
-			state.password = action.payload
+			state.copyPassword = action.payload
 		},
     setAddError(state, action: PayloadAction<string>){
 			state.error = action.payload

@@ -11,8 +11,9 @@ import {
   setAddPassword,
 } from "../../redux/signIn/slice"
 import { selectSignIn } from "../../redux/signIn/selectors"
-import { DivButton, DivForm } from "./styles/userStyles"
+import { DivAuthDetails, DivButton, DivForm } from "./styles/userStyles"
 import { Link } from "react-router-dom"
+import AuthDetails from "./AuthDetails"
 
 type UserType = {
   email?: string
@@ -27,19 +28,17 @@ const SignIn = () => {
   const dispatch = useAppDispatch()
 
   function logIn() {
-    if (isLoading) {
-      setIsLoading(false)
-      signInWithEmailAndPassword(auth, email, password)
-        .then(user => {
-          console.log(user)
-          dispatch(setAddError(""))
-          dispatch(setAddEmail(""))
-          dispatch(setAddPassword(""))
-          setIsLoading(true)
-        })
-        .catch(error => console.log(error.message))
-      dispatch(setAddError("Sorry, couldn`t find your account"))
-    }
+    setIsLoading(false)
+    signInWithEmailAndPassword(auth, email, password)
+      .then(user => {
+        console.log(user)
+        dispatch(setAddError(""))
+        dispatch(setAddEmail(""))
+        dispatch(setAddPassword(""))
+        setIsLoading(true)
+      })
+      .catch(error => console.log(error.message))
+    dispatch(setAddError("Sorry, couldn`t find your account"))
   }
 
   return (
@@ -97,6 +96,7 @@ const SignIn = () => {
           {error ? <p style={{ color: "red" }}>{error}</p> : ""}
         </Form.Item>
       </Form>
+      <DivAuthDetails>{isLoading ? <AuthDetails /> : ""}</DivAuthDetails>
     </DivForm>
   )
 }

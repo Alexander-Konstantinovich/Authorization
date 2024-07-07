@@ -1,6 +1,7 @@
+import React from "react"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
-import { Button, Form, Input } from "antd"
+import { Button, Form, Input, Spin } from "antd"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import {
   setAddEmail,
@@ -9,7 +10,8 @@ import {
   setAddCopyPassword,
 } from "../../redux/signUp/slice"
 import { selectSignUp } from "../../redux/signUp/selectors"
-import { DivForm } from "./styles/userStyles"
+import { DivButton, DivForm } from "./styles/userStyles"
+import { useNavigate } from "react-router-dom"
 
 interface UserType {
   email?: string
@@ -19,10 +21,13 @@ interface UserType {
 }
 
 const SignUp = () => {
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = React.useState(true)
   const { email, password, error, copyPassword } = useAppSelector(selectSignUp)
   const dispatch = useAppDispatch()
 
   function register() {
+    setIsLoading(false)
     if (password !== copyPassword) {
       dispatch(setAddError("Passwords didn`t match"))
       return
@@ -34,6 +39,8 @@ const SignUp = () => {
         dispatch(setAddEmail(""))
         dispatch(setAddPassword(""))
         dispatch(setAddCopyPassword(""))
+        setIsLoading(true)
+        navigate("/login")
       })
       .catch(error => console.log(error.message))
   }
@@ -89,9 +96,12 @@ const SignUp = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+          <DivButton>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+            {isLoading || <Spin style={{ marginTop: 15 }} />}
+          </DivButton>
           {error ? <p style={{ color: "red" }}>{error}</p> : ""}
         </Form.Item>
       </Form>
@@ -100,5 +110,3 @@ const SignUp = () => {
 }
 
 export default SignUp
-
-
