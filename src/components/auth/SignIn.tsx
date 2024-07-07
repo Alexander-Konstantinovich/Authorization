@@ -1,10 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
 import { Button, Form, Input, Spin } from "antd"
 
-import { useAppSelector, useAppDispatch } from "../../app/hooks"
+import { useAppSelector, useAppDispatch } from "../../redux/hooks"
 import {
   setAddEmail,
   setAddError,
@@ -23,22 +23,28 @@ type UserType = {
 }
 
 const SignIn = () => {
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+  const[isAuthorize, setIsAuthorize] = useState(false)
   const { email, password, error } = useAppSelector(selectSignIn)
   const dispatch = useAppDispatch()
 
   function logIn() {
-    setIsLoading(false)
+    setIsLoading(true)
     signInWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
         dispatch(setAddError(""))
         dispatch(setAddEmail(""))
         dispatch(setAddPassword(""))
-        setIsLoading(true)
+        setIsAuthorize(true)
+        setIsLoading(false)
       })
-      .catch(error => console.log(error.message))
-    dispatch(setAddError("Sorry, couldn`t find your account"))
+      .catch(error => {
+        console.log(error.message)
+        dispatch(setAddError("Sorry, couldn`t find your account"))
+        setIsLoading(false)
+      }
+    )
   }
 
   return (
@@ -86,7 +92,7 @@ const SignIn = () => {
             >
               Submit
             </Button>
-            {isLoading || <Spin style={{ marginBottom: 15 }} />}
+            {isLoading && <Spin style={{ marginBottom: 15 }} />}
             <Link to="/registration" style={{ margin: "auto" }}>
               <Button type="default" htmlType="button">
                 Authorization
@@ -96,7 +102,7 @@ const SignIn = () => {
           {error ? <p style={{ color: "red" }}>{error}</p> : ""}
         </Form.Item>
       </Form>
-      <DivAuthDetails>{isLoading ? <AuthDetails /> : ""}</DivAuthDetails>
+      <DivAuthDetails>{isAuthorize && <AuthDetails />}</DivAuthDetails>
     </DivForm>
   )
 }

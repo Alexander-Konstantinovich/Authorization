@@ -10,6 +10,7 @@ const AuthDetails = () => {
   React.useEffect(() => {
     const listen = onAuthStateChanged(auth, (user:any) => {
       if (user) {
+        console.log('asfsaf', user);
         setAuthUser(user)
       } else { 
         setAuthUser(null)
@@ -32,7 +33,7 @@ const AuthDetails = () => {
           <Button type="primary" onClick={userSignOut}>Sign Out</Button>
         </div>
       ) : (
-        <p>Signed Out</p>
+        ""
       )}
     </div>
   )

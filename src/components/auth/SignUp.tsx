@@ -2,7 +2,7 @@ import React from "react"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
 import { Button, Form, Input, Spin } from "antd"
-import { useAppSelector, useAppDispatch } from "../../app/hooks"
+import { useAppSelector, useAppDispatch } from "../../redux/hooks"
 import {
   setAddEmail,
   setAddError,
@@ -22,12 +22,12 @@ interface UserType {
 
 const SignUp = () => {
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(false)
   const { email, password, error, copyPassword } = useAppSelector(selectSignUp)
   const dispatch = useAppDispatch()
 
   function register() {
-    setIsLoading(false)
+    setIsLoading(true)
     if (password !== copyPassword) {
       dispatch(setAddError("Passwords didn`t match"))
       return
@@ -39,8 +39,8 @@ const SignUp = () => {
         dispatch(setAddEmail(""))
         dispatch(setAddPassword(""))
         dispatch(setAddCopyPassword(""))
-        setIsLoading(true)
         navigate("/login")
+        setIsLoading(false)
       })
       .catch(error => console.log(error.message))
   }
@@ -100,7 +100,7 @@ const SignUp = () => {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
-            {isLoading || <Spin style={{ marginTop: 15 }} />}
+            {isLoading && <Spin style={{ marginTop: 15 }} />}
           </DivButton>
           {error ? <p style={{ color: "red" }}>{error}</p> : ""}
         </Form.Item>
