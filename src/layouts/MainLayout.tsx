@@ -1,16 +1,13 @@
-// import React from 'react';
-// import Header from '../Header';
-// import { Outlet } from 'react-router-dom';
+import Nav from '../pages/Nav'
+import { Outlet } from 'react-router'
 
-// const MainLayout: React.FC = () => {
-// 	return (
-// 		<div className='wrapper'>
-// 			<Header />
-// 			<div className='content'>
-// 				<Outlet />
-// 			</div>
-// 		</div>
-// 	);
-// }
+const MainLayout = () => {
+	return (
+		<div>
+			<Nav/>
+			<Outlet />
+		</div>
+	)
+}
 
-// export default MainLayout;
+export default MainLayout

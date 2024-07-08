@@ -1,17 +1,19 @@
 import "./App.css"
-import AuthDetails from "./components/auth/AuthDetails"
 import {
   layoutStyle,
   headerStyle,
   contentStyle,
 } from "./components/auth/styles/appStyles"
 
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import { GlobalStyle, Title } from "./components/auth/styles/appStyles"
 import { Flex, Layout } from "antd"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import Table from "./pages/Table"
+import Nav from "./pages/Nav"
+import PrivateRoute from "./components/auth/PrivateRoute"
+import MainLayout from "./layouts/MainLayout"
 
 const { Header, Content } = Layout
 
@@ -27,7 +29,13 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/login" element={<SignInPage />} />
             <Route path="/registration" element={<SignUpPage />} />
-            <Route path="/" element={<Table />} />
+            <Route path="/" element={<PrivateRoute />}>
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<Navigate to="/table" replace />} />
+                <Route path="table" element={<Table />} />
+                <Route path="nav" element={<Nav />} />
+              </Route>
+            </Route>
           </Routes>
         </Content>
       </Layout>
