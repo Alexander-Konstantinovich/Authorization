@@ -6,6 +6,8 @@ const initialState: InitialSignIn = {
   email: "",
   password: "",
   error: "",
+	isLoading: false,
+	isAuthorize:false,
 }
 
 const signInSlice = createSlice({
@@ -21,8 +23,14 @@ const signInSlice = createSlice({
     setAddError(state, action: PayloadAction<string>){
 			state.error = action.payload
 		},
+		setIsLoading(state, action: PayloadAction<boolean>){
+			state.isLoading = action.payload
+		},
+		setIsAuthorize(state, action: PayloadAction<boolean>){
+			state.isAuthorize = action.payload
+		},
 	},
 })
 
-export const {setAddEmail, setAddPassword, setAddError} = signInSlice.actions
+export const {setAddEmail, setAddPassword, setAddError, setIsLoading, setIsAuthorize} = signInSlice.actions
 export default signInSlice.reducer

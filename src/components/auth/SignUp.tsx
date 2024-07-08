@@ -1,4 +1,3 @@
-import React from "react"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
 import { Button, Form, Input, Spin } from "antd"
@@ -8,6 +7,7 @@ import {
   setAddError,
   setAddPassword,
   setAddCopyPassword,
+  setIsLoading,
 } from "../../redux/signUp/slice"
 import { selectSignUp } from "../../redux/signUp/selectors"
 import { DivButton, DivForm } from "./styles/userStyles"
@@ -22,12 +22,12 @@ interface UserType {
 
 const SignUp = () => {
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = React.useState(false)
-  const { email, password, error, copyPassword } = useAppSelector(selectSignUp)
+  const { email, password, error, copyPassword, isLoading } =
+    useAppSelector(selectSignUp)
   const dispatch = useAppDispatch()
 
   function register() {
-    setIsLoading(true)
+    dispatch(setIsLoading(true))
     if (password !== copyPassword) {
       dispatch(setAddError("Passwords didn`t match"))
       return
@@ -40,7 +40,7 @@ const SignUp = () => {
         dispatch(setAddPassword(""))
         dispatch(setAddCopyPassword(""))
         navigate("/login")
-        setIsLoading(false)
+        dispatch(setIsLoading(false))
       })
       .catch(error => console.log(error.message))
   }

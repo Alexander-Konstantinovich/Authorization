@@ -1,4 +1,3 @@
-import React, { useState } from "react"
 
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
@@ -9,11 +8,14 @@ import {
   setAddEmail,
   setAddError,
   setAddPassword,
+  setIsLoading,
+  setIsAuthorize,
 } from "../../redux/signIn/slice"
 import { selectSignIn } from "../../redux/signIn/selectors"
 import { DivAuthDetails, DivButton, DivForm } from "./styles/userStyles"
 import { Link } from "react-router-dom"
 import AuthDetails from "./AuthDetails"
+
 
 type UserType = {
   email?: string
@@ -23,28 +25,25 @@ type UserType = {
 }
 
 const SignIn = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const[isAuthorize, setIsAuthorize] = useState(false)
-  const { email, password, error } = useAppSelector(selectSignIn)
+  const { email, password, error, isLoading, isAuthorize } = useAppSelector(selectSignIn)
   const dispatch = useAppDispatch()
 
   function logIn() {
-    setIsLoading(true)
+    dispatch(setIsLoading(true))
     signInWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
         dispatch(setAddError(""))
         dispatch(setAddEmail(""))
         dispatch(setAddPassword(""))
-        setIsAuthorize(true)
-        setIsLoading(false)
+        dispatch(setIsAuthorize(true))
+        dispatch(setIsLoading(false))
       })
       .catch(error => {
         console.log(error.message)
         dispatch(setAddError("Sorry, couldn`t find your account"))
-        setIsLoading(false)
-      }
-    )
+        dispatch(setIsLoading(false))
+      })
   }
 
   return (

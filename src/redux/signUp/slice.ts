@@ -7,6 +7,7 @@ const initialState: InitialSignUp = {
   password: "",
   copyPassword: "",
   error: "",
+	isLoading: false,
 }
 
 const signUpSlice = createSlice({
@@ -25,8 +26,11 @@ const signUpSlice = createSlice({
     setAddError(state, action: PayloadAction<string>){
 			state.error = action.payload
 		},
+		setIsLoading(state, action: PayloadAction<boolean>){
+			state.isLoading = action.payload
+		},
 	},
 })
 
-export const {setAddEmail, setAddPassword, setAddError, setAddCopyPassword} = signUpSlice.actions
+export const {setAddEmail, setAddPassword, setAddError, setAddCopyPassword, setIsLoading} = signUpSlice.actions
 export default signUpSlice.reducer

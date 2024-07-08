@@ -11,6 +11,7 @@ import { GlobalStyle, Title } from "./components/auth/styles/appStyles"
 import { Flex, Layout } from "antd"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
+import Table from "./pages/Table"
 
 const { Header, Content } = Layout
 
@@ -26,7 +27,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/login" element={<SignInPage />} />
             <Route path="/registration" element={<SignUpPage />} />
-            <Route path="/AuthDetails" element={<AuthDetails />} />
+            <Route path="/" element={<Table />} />
           </Routes>
         </Content>
       </Layout>

@@ -3,4 +3,5 @@ export interface InitialSignUp {
   password: string
   copyPassword: string
   error: string
+  isLoading: boolean
 }

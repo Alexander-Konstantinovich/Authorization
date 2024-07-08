@@ -2,11 +2,13 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { configureStore } from "@reduxjs/toolkit"
 import registration from "../redux/signUp/slice"
 import login from "../redux/signIn/slice"
+import table from '../redux/table/slice'
 
 export const store = configureStore({
   reducer: {
     registration,
     login,
+    table,
   },
 })
 
