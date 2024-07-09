@@ -1,12 +1,15 @@
 import Nav from '../pages/Nav'
 import { Outlet } from 'react-router'
+import { DivLayout, DivLayoutOutlet } from './styleMainLayout'
 
 const MainLayout = () => {
 	return (
-		<div>
+		<DivLayout>
 			<Nav/>
+			<DivLayoutOutlet>
 			<Outlet />
-		</div>
+			</DivLayoutOutlet>
+		</DivLayout>
 	)
 }
 
