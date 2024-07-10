@@ -7,6 +7,7 @@ import { fetchAddProducts } from "../redux/table/asyncActions"
 import styled from "styled-components"
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import type { TableItem } from "../redux/table/types"
+import { setRemoveItem } from "../redux/table/slice"
 
 export const TableColumns = styled.div<{ mode?: string }>`
   :where(.css-dev-only-do-not-override-f7vrd6).ant-table-wrapper .ant-table {
@@ -25,13 +26,12 @@ const columns: TableColumnsType<TableItem> = [
     title: "Title",
     dataIndex: "title",
     key: "title",
-    width: "20%"
+    width: "20%",
   },
   {
     title: "Price",
     dataIndex: "price",
     key: "price",
-    defaultSortOrder: 'descend',
     width: "7%",
     sorter: (a, b) => a.price - b.price,
   },
@@ -74,17 +74,6 @@ const columns: TableColumnsType<TableItem> = [
     key: "image",
     ellipsis: true,
   },
-  {
-    title: 'Action',
-    width: 100,
-    fixed: 'right',
-    render: () => (
-      <Space>
-        <Typography.Link><EditOutlined/></Typography.Link>
-        <Typography.Link><DeleteOutlined/></Typography.Link>
-      </Space>
-    ),
-  },
 ]
 
 const TableProducts: React.FC = () => {
@@ -92,6 +81,28 @@ const TableProducts: React.FC = () => {
 
   const products = useAppSelector(selectTable)
   console.log(products)
+
+  const handleRemoveItem = (id: number) => {
+    dispatch(setRemoveItem(id))
+  }
+
+  const newColumns = [...columns]
+  newColumns.push({
+    title: "Action",
+    width: 100,
+    key: "action",
+    fixed: "right",
+    render: products => (
+      <Space>
+        <Typography.Link>
+          <EditOutlined />
+        </Typography.Link>
+        <Typography.Link onClick={() => handleRemoveItem(products.id)}>
+          <DeleteOutlined />
+        </Typography.Link>
+      </Space>
+    ),
+  })
 
   useEffect(() => {
     dispatch(fetchAddProducts())
@@ -101,7 +112,7 @@ const TableProducts: React.FC = () => {
     <TableColumns>
       <Table
         dataSource={products}
-        columns={columns}
+        columns={newColumns}
         bordered
         pagination={{
           style: { backgroundColor: "#fff", margin: 0, padding: 16 },

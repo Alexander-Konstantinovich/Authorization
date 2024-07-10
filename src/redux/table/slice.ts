@@ -14,7 +14,9 @@ const TableSlice = createSlice({
   name: "table",
   initialState,
   reducers: {
-
+    setRemoveItem(state, action: PayloadAction<number>) {
+			state.items = state.items.filter(obj => obj.id !== action.payload);
+		},
   },
   extraReducers: builder => {
     builder.addCase(fetchAddProducts.pending, state => {
@@ -31,5 +33,6 @@ const TableSlice = createSlice({
     })
   },
 })
+export const {setRemoveItem} = TableSlice.actions
 
 export default TableSlice.reducer
