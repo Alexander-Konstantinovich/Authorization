@@ -1,10 +1,7 @@
 import { useEffect } from "react"
-import { Space, Table, Typography } from "antd"
+import { Popconfirm, Space, Table, Typography } from "antd"
 import type { TableColumnsType } from "antd"
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons"
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { useAppSelector, useAppDispatch } from "../redux/hooks"
 import { selectTable } from "../redux/table/selectors"
 import { fetchAddProducts } from "../redux/table/asyncActions"
@@ -111,9 +108,12 @@ const TableProducts: React.FC = () => {
         <Typography.Link>
           <EditOutlined />
         </Typography.Link>
-        <Typography.Link onClick={() => handleRemoveItem(products.id)}>
+        <Popconfirm
+          title="Sure to delete?"
+          onConfirm={() => handleRemoveItem(products.id)}
+        >
           <DeleteOutlined />
-        </Typography.Link>
+        </Popconfirm>
       </Space>
     ),
   })
@@ -123,16 +123,16 @@ const TableProducts: React.FC = () => {
   }, [])
 
   return (
-      <TableColumns>
-        <Table
-          dataSource={products}
-          columns={newColumns}
-          bordered
-          pagination={{
-            style: { backgroundColor: "#fff", margin: 0, padding: 16 },
-          }}
-        />
-      </TableColumns>
+    <TableColumns>
+      <Table
+        dataSource={products}
+        columns={newColumns}
+        bordered
+        pagination={{
+          style: { backgroundColor: "#fff", margin: 0, padding: 16 },
+        }}
+      />
+    </TableColumns>
   )
 }
 
