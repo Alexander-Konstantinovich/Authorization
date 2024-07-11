@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import { Popconfirm, Space, Table, Typography } from "antd"
+import { useEffect, useState } from "react"
+import { Button, Input, Modal, Popconfirm, Space, Table, Typography } from "antd"
 import type { TableColumnsType } from "antd"
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { useAppSelector, useAppDispatch } from "../redux/hooks"
@@ -22,6 +22,11 @@ export const TableColumns = styled.div<{ mode?: string }>`
     display: none;
   }
 `
+export const DivHeaderTable = styled.div<{ mode?: string }>`
+  display: flex;
+  justify-content: space-between;
+`
+
 // interface ProductProps {
 //   id: number;
 // }
@@ -97,6 +102,29 @@ const TableProducts: React.FC = () => {
     dispatch(setRemoveItem(id))
   }
 
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Content of the modal');
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    setModalText('The modal will be closed after two seconds');
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setOpen(false);
+  };
+
+
   const newColumns = [...columns]
   newColumns.push({
     title: "Action",
@@ -124,6 +152,25 @@ const TableProducts: React.FC = () => {
 
   return (
     <TableColumns>
+      <DivHeaderTable style={{background: '#fff'}}>
+        <Input
+          placeholder="Enter the products name"
+          style={{ margin: 10, width: 200 }}
+        />
+        <Button type="primary" onClick={showModal} style={{margin:10}}>
+        Add item
+      </Button>
+      <Modal
+        title="Title"
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        
+      >
+        <p>{modalText}</p>
+      </Modal>
+      </DivHeaderTable>
       <Table
         dataSource={products}
         columns={newColumns}

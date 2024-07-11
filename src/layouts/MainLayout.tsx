@@ -6,7 +6,7 @@ import { LoadingOutlined } from "@ant-design/icons"
 import { selectTableStatus } from "../redux/table/selectors"
 import { useAppSelector } from "../redux/hooks"
 
-const MainLayout = () => {
+const MainLayout:React.FC = () => {
   const statusProducts = useAppSelector(selectTableStatus)
   return (
     <Spin

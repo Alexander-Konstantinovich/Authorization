@@ -32,8 +32,8 @@ const App: React.FC = () => {
             <Route path="/" element={<PrivateRoute />}>
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Navigate to="/table" replace />} />
-                <Route path="table" element={<Table />} />
-                <Route path="nav" element={<Nav />} />
+                <Route path="/table" element={<Table />} />
+                <Route path="/nav" element={<Nav />} />
               </Route>
             </Route>
           </Routes>
