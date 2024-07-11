@@ -1,11 +1,14 @@
 import { useEffect } from "react"
 import { Space, Table, Typography } from "antd"
 import type { TableColumnsType } from "antd"
+import {
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons"
 import { useAppSelector, useAppDispatch } from "../redux/hooks"
 import { selectTable } from "../redux/table/selectors"
 import { fetchAddProducts } from "../redux/table/asyncActions"
 import styled from "styled-components"
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import type { TableItem } from "../redux/table/types"
 import { setRemoveItem } from "../redux/table/slice"
 
@@ -13,7 +16,18 @@ export const TableColumns = styled.div<{ mode?: string }>`
   :where(.css-dev-only-do-not-override-f7vrd6).ant-table-wrapper .ant-table {
     border-radius: 0px;
   }
+  :where(.css-dev-only-do-not-override-f7vrd6).ant-empty .ant-empty-image svg {
+    display: none;
+  }
+  :where(.css-dev-only-do-not-override-f7vrd6).ant-empty-normal
+    .ant-empty-description {
+    color: rgba(0, 0, 0, 0.45);
+    display: none;
+  }
 `
+// interface ProductProps {
+//   id: number;
+// }
 
 const columns: TableColumnsType<TableItem> = [
   {
@@ -78,9 +92,9 @@ const columns: TableColumnsType<TableItem> = [
 
 const TableProducts: React.FC = () => {
   const dispatch = useAppDispatch()
-
   const products = useAppSelector(selectTable)
-  console.log(products)
+  // const productById = useAppSelector((state) => selectTableById(state, id));
+  // console.log(productById?.id)
 
   const handleRemoveItem = (id: number) => {
     dispatch(setRemoveItem(id))
@@ -109,16 +123,16 @@ const TableProducts: React.FC = () => {
   }, [])
 
   return (
-    <TableColumns>
-      <Table
-        dataSource={products}
-        columns={newColumns}
-        bordered
-        pagination={{
-          style: { backgroundColor: "#fff", margin: 0, padding: 16 },
-        }}
-      />
-    </TableColumns>
+      <TableColumns>
+        <Table
+          dataSource={products}
+          columns={newColumns}
+          bordered
+          pagination={{
+            style: { backgroundColor: "#fff", margin: 0, padding: 16 },
+          }}
+        />
+      </TableColumns>
   )
 }
 
