@@ -31,9 +31,9 @@ const App: React.FC = () => {
             <Route path="/registration" element={<SignUpPage />} />
             <Route path="/" element={<PrivateRoute />}>
               <Route element={<MainLayout />}>
-                <Route path="/" element={<Navigate to="/home" replace />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/nav" element={<Nav />} />
+                <Route path="/" element={<Navigate to="home" replace />} />
+                <Route path="home" element={<Home />} />
+                <Route path="nav" element={<Nav />} />
               </Route>
             </Route>
           </Routes>

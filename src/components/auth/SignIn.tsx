@@ -1,4 +1,3 @@
-
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../fairbase"
 import { Button, Form, Input, Spin } from "antd"
@@ -13,9 +12,8 @@ import {
 } from "../../redux/signIn/slice"
 import { selectSignIn } from "../../redux/signIn/selectors"
 import { DivAuthDetails, DivButton, DivForm } from "./styles/userStyles"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import AuthDetails from "./AuthDetails"
-
 
 type UserType = {
   email?: string
@@ -25,8 +23,10 @@ type UserType = {
 }
 
 const SignIn = () => {
-  const { email, password, error, isLoading, isAuthorize } = useAppSelector(selectSignIn)
+  const { email, password, error, isLoading, isAuthorize } =
+    useAppSelector(selectSignIn)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   function logIn() {
     dispatch(setIsLoading(true))
@@ -38,6 +38,7 @@ const SignIn = () => {
         dispatch(setAddPassword(""))
         dispatch(setIsAuthorize(true))
         dispatch(setIsLoading(false))
+        navigate("/")
       })
       .catch(error => {
         console.log(error.message)
@@ -83,14 +84,26 @@ const SignIn = () => {
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <DivButton>
-            <Button
-              type="primary"
-              htmlType="submit"
-              onClick={logIn}
-              style={{ marginBottom: 20 }}
-            >
-              Submit
-            </Button>
+            {isAuthorize ? (
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={logIn}
+                style={{ marginBottom: 20 }}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={logIn}
+                style={{ marginBottom: 20 }}
+              >
+                Submit
+              </Button>
+            )}
+
             {isLoading && <Spin style={{ marginBottom: 15 }} />}
             <Link to="/registration" style={{ margin: "auto" }}>
               <Button type="default" htmlType="button">
