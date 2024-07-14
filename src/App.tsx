@@ -10,10 +10,10 @@ import { GlobalStyle, Title } from "./components/auth/styles/appStyles"
 import { Flex, Layout } from "antd"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
-import Table from "./pages/Table"
-import Nav from "./pages/Nav"
+import Nav from "./components/Table/Nav"
 import PrivateRoute from "./components/auth/PrivateRoute"
 import MainLayout from "./layouts/MainLayout"
+import Home from "./pages/Home"
 
 const { Header, Content } = Layout
 
@@ -31,8 +31,8 @@ const App: React.FC = () => {
             <Route path="/registration" element={<SignUpPage />} />
             <Route path="/" element={<PrivateRoute />}>
               <Route element={<MainLayout />}>
-                <Route path="/" element={<Navigate to="/table" replace />} />
-                <Route path="/table" element={<Table />} />
+                <Route path="/" element={<Navigate to="/home" replace />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/nav" element={<Nav />} />
               </Route>
             </Route>

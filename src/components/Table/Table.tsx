@@ -1,31 +1,15 @@
-import { useEffect, useState } from "react"
-import { Button, Input, Modal, Popconfirm, Space, Table, Typography } from "antd"
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react"
+import { Popconfirm, Space, Table, Typography } from "antd"
 import type { TableColumnsType } from "antd"
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
-import { useAppSelector, useAppDispatch } from "../redux/hooks"
-import { selectTable } from "../redux/table/selectors"
-import { fetchAddProducts } from "../redux/table/asyncActions"
-import styled from "styled-components"
-import type { TableItem } from "../redux/table/types"
-import { setRemoveItem } from "../redux/table/slice"
-
-export const TableColumns = styled.div<{ mode?: string }>`
-  :where(.css-dev-only-do-not-override-f7vrd6).ant-table-wrapper .ant-table {
-    border-radius: 0px;
-  }
-  :where(.css-dev-only-do-not-override-f7vrd6).ant-empty .ant-empty-image svg {
-    display: none;
-  }
-  :where(.css-dev-only-do-not-override-f7vrd6).ant-empty-normal
-    .ant-empty-description {
-    color: rgba(0, 0, 0, 0.45);
-    display: none;
-  }
-`
-export const DivHeaderTable = styled.div<{ mode?: string }>`
-  display: flex;
-  justify-content: space-between;
-`
+import { useAppSelector, useAppDispatch } from "../../redux/hooks"
+import { selectTable } from "../../redux/table/selectors"
+import { fetchAddProducts } from "../../redux/table/asyncActions"
+import type { TableItem } from "../../redux/table/types"
+import { setRemoveItem } from "../../redux/table/slice"
+import { TableColumns } from "./styles/tableStyles"
+import TableHeader from "./TableHeader"
 
 // interface ProductProps {
 //   id: number;
@@ -49,7 +33,7 @@ const columns: TableColumnsType<TableItem> = [
     dataIndex: "price",
     key: "price",
     width: "7%",
-    sorter: (a, b) => a.price - b.price,
+    sorter: (a, b) => parseFloat(a.price) - parseFloat(b.price),
   },
   {
     title: "Category",
@@ -102,29 +86,6 @@ const TableProducts: React.FC = () => {
     dispatch(setRemoveItem(id))
   }
 
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
-
-  const showModal = () => {
-    setOpen(true);
-  };
-
-  const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
-
-  const handleCancel = () => {
-    console.log('Clicked cancel button');
-    setOpen(false);
-  };
-
-
   const newColumns = [...columns]
   newColumns.push({
     title: "Action",
@@ -152,31 +113,13 @@ const TableProducts: React.FC = () => {
 
   return (
     <TableColumns>
-      <DivHeaderTable style={{background: '#fff'}}>
-        <Input
-          placeholder="Enter the products name"
-          style={{ margin: 10, width: 200 }}
-        />
-        <Button type="primary" onClick={showModal} style={{margin:10}}>
-        Add item
-      </Button>
-      <Modal
-        title="Title"
-        open={open}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        
-      >
-        <p>{modalText}</p>
-      </Modal>
-      </DivHeaderTable>
+      <TableHeader />
       <Table
         dataSource={products}
         columns={newColumns}
         bordered
         pagination={{
-          style: { backgroundColor: "#fff", margin: 0, padding: 16 },
+          style: { backgroundColor: "#fff", margin: 0, padding: 16 }, totalBoundaryShowSizeChanger: 1
         }}
       />
     </TableColumns>

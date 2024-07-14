@@ -8,12 +8,17 @@ import { fetchAddProducts } from "./asyncActions"
 const initialState: TableInitial = {
   items: [],
   status: Status.LOADING,
+  displayedItems: [],
 }
 
 const TableSlice = createSlice({
   name: "table",
   initialState,
   reducers: {
+
+    addItem(state, action: PayloadAction<TableItem>) {
+      state.displayedItems.push(action.payload)
+    },
     setRemoveItem(state, action: PayloadAction<number>) {
 			state.items = state.items.filter(obj => obj.id !== action.payload);
 		},
@@ -26,6 +31,7 @@ const TableSlice = createSlice({
     .addCase(fetchAddProducts.fulfilled, (state, action: PayloadAction<TableItem[]>) => {
       state.items = action.payload
       state.status = Status.SUCCESS
+      state.displayedItems = state.items
     })
     .addCase(fetchAddProducts.rejected, state => {
       state.items = []
@@ -33,6 +39,6 @@ const TableSlice = createSlice({
     })
   },
 })
-export const {setRemoveItem} = TableSlice.actions
+export const {setRemoveItem, addItem} = TableSlice.actions
 
 export default TableSlice.reducer

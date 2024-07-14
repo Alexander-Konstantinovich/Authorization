@@ -1,5 +1,12 @@
 export interface TableItem {
-  id: number
+  title: string
+  price: string
+  category: string
+  description: string
+  image: string
+}
+export interface ResTableItem {
+	id:number
   title: string
   price: string
   category: string
@@ -14,7 +21,5 @@ export enum Status {
 }
 
 export interface TableInitial {
-  items: TableItem[]
   status: Status
-  displayedItems:TableItem[]
 }
