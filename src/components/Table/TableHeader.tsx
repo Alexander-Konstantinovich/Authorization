@@ -2,10 +2,7 @@ import { Button, Input, message, Modal } from "antd"
 import { useState } from "react"
 import { AddItemInput, DivHeaderTable } from "./styles/tableStyles"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
-import {
-  selectPostTable,
-  selectTableResponseItem,
-} from "../../redux/tablePost/selectors"
+import { selectPostTable } from "../../redux/tablePost/selectors"
 import {
   setCategory,
   setDescription,
@@ -16,6 +13,7 @@ import {
 } from "../../redux/tablePost/slice"
 import { postAddProducts } from "../../redux/tablePost/asyncActions"
 import { addItem } from "../../redux/table/slice"
+import { selectTableDisplayedItems } from "../../redux/table/selectors"
 
 const TableHeader = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -24,7 +22,7 @@ const TableHeader = () => {
   const dispatch = useAppDispatch()
   const { title, price, category, description, image } =
     useAppSelector(selectPostTable)
-  const responseItem = useAppSelector(selectTableResponseItem)
+  const responseItemId = useAppSelector(selectTableDisplayedItems)
 
   const showModal = () => {
     setIsOpen(true)
@@ -38,9 +36,23 @@ const TableHeader = () => {
     dispatch(setFetchingStatus(true))
 
     setTimeout(() => {
-      dispatch(postAddProducts({ title, price, category, description, image }))
+      const maxId =
+        responseItemId.length > 0
+          ? Math.max(...responseItemId.map(item => item.id))
+          : 0
+      const newId = maxId + 1
 
-      dispatch(addItem(responseItem))
+      const newItem = {
+        id: newId,
+        title,
+        price,
+        category,
+        description,
+        image,
+      }
+      dispatch(postAddProducts(newItem))
+
+      dispatch(addItem(newItem))
       dispatch(setFetchingStatus(false))
 
       dispatch(setTitle(""))

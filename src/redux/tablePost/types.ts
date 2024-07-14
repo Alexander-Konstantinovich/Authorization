@@ -1,4 +1,4 @@
-export interface TableItem {
+export interface PostTableItem {
   title: string
   price: string
   category: string

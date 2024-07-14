@@ -107,6 +107,8 @@ const TableProducts: React.FC = () => {
     ),
   })
 
+  
+
   useEffect(() => {
     dispatch(fetchAddProducts())
   }, [])
