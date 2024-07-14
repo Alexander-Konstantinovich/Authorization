@@ -4,7 +4,7 @@ import { selectSignInAuthorize } from "../../redux/signIn/selectors"
 
 const PrivateRoute = () => {
   const isAuthorized = useAppSelector(selectSignInAuthorize)
-  return isAuthorized ? <Outlet /> : <Navigate to="/login" />
+  return !isAuthorized ? <Outlet /> : <Navigate to="/login" />
 }
 
 export default PrivateRoute

@@ -4,7 +4,7 @@ import { Popconfirm, Space, Table, Typography } from "antd"
 import type { TableColumnsType } from "antd"
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { useAppSelector, useAppDispatch } from "../../redux/hooks"
-import { selectTable } from "../../redux/table/selectors"
+import {  selectTableDisplayedItems } from "../../redux/table/selectors"
 import { fetchAddProducts } from "../../redux/table/asyncActions"
 import type { TableItem } from "../../redux/table/types"
 import { setRemoveItem } from "../../redux/table/slice"
@@ -78,7 +78,7 @@ const columns: TableColumnsType<TableItem> = [
 
 const TableProducts: React.FC = () => {
   const dispatch = useAppDispatch()
-  const products = useAppSelector(selectTable)
+  const products = useAppSelector(selectTableDisplayedItems)
   // const productById = useAppSelector((state) => selectTableById(state, id));
   // console.log(productById?.id)
 

@@ -20,7 +20,7 @@ const TableSlice = createSlice({
       state.displayedItems.push(action.payload)
     },
     setRemoveItem(state, action: PayloadAction<number>) {
-			state.items = state.items.filter(obj => obj.id !== action.payload);
+			state.displayedItems  = state.displayedItems .filter(obj => obj.id !== action.payload);
 		},
   },
   extraReducers: builder => {
