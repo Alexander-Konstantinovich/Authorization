@@ -11,9 +11,6 @@ import { setRemoveItem } from "../../redux/table/slice"
 import { TableColumns } from "./styles/tableStyles"
 import TableHeader from "./TableHeader"
 
-// interface ProductProps {
-//   id: number;
-// }
 
 const columns: TableColumnsType<TableItem> = [
   {

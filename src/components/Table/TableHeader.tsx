@@ -1,4 +1,4 @@
-import { Button, Input, message, Modal } from "antd"
+import { Button, message, Modal } from "antd"
 import { useState } from "react"
 import { AddItemInput, DivHeaderTable } from "./styles/tableStyles"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
@@ -14,6 +14,7 @@ import {
 import { postAddProducts } from "../../redux/tablePost/asyncActions"
 import { addItem } from "../../redux/table/slice"
 import { selectTableDisplayedItems } from "../../redux/table/selectors"
+import SearchTable from "./SearchTable"
 
 const TableHeader = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -73,10 +74,7 @@ const TableHeader = () => {
   return (
     <DivHeaderTable style={{ background: "#fff" }}>
       {contextHolder}
-      <Input
-        placeholder="Enter the products name"
-        style={{ margin: 10, width: 200 }}
-      />
+      <SearchTable />
       <Button
         type="primary"
         onClick={showModal}

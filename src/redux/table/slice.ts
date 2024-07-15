@@ -14,6 +14,17 @@ const TableSlice = createSlice({
   name: "table",
   initialState,
   reducers: {
+    searchItem(state, action: PayloadAction<string>) {
+      if (!action.payload.length) {
+        state.displayedItems = state.items
+      }
+
+      const filterSearchValue = state.displayedItems.filter(
+        (product: TableItem) =>
+          product.title.toLowerCase().includes(action.payload.toLowerCase()),
+      )
+      state.displayedItems = filterSearchValue
+    },
     addItem(state, action: PayloadAction<TableItem>) {
       state.displayedItems.push(action.payload)
     },
@@ -43,6 +54,6 @@ const TableSlice = createSlice({
       })
   },
 })
-export const { setRemoveItem, addItem } = TableSlice.actions
+export const { setRemoveItem, addItem, searchItem } = TableSlice.actions
 
 export default TableSlice.reducer
