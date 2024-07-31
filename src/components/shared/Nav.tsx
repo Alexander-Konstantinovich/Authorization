@@ -1,6 +1,7 @@
 import { Menu } from "antd"
 import type { MenuProps } from "antd"
 import { HomeOutlined, TableOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
+import { Link } from "react-router-dom"
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -11,9 +12,9 @@ const items: MenuItem[] = [
     icon: <HomeOutlined />,
     style:{height: 53, paddingTop: 3},
     children: [
-      { key: "table", label: "Table", icon: <TableOutlined /> , style: { paddingRight:38}},
-      { key: "support", label: "Support", icon:<QuestionCircleOutlined />},
-      { key: "settings", label: "Settings", icon: <SettingOutlined />},
+      { key: "table", label: <Link to="/table">Table</Link>, icon: <TableOutlined /> , style: { paddingRight:38}},
+      { key: "support", label: <Link to="/support">Support</Link>, icon:<QuestionCircleOutlined />},
+      { key: "settings", label: <Link to="/settings">Settings</Link>, icon: <SettingOutlined />},
     ],
   },
   {

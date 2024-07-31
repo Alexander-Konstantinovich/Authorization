@@ -4,13 +4,12 @@ import { Popconfirm, Space, Table, Typography } from "antd"
 import type { TableColumnsType } from "antd"
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { useAppSelector, useAppDispatch } from "../../redux/hooks"
-import {  selectTableDisplayedItems } from "../../redux/table/selectors"
+import { selectTableDisplayedItems } from "../../redux/table/selectors"
 import { fetchAddProducts } from "../../redux/table/asyncActions"
 import type { TableItem } from "../../redux/table/types"
 import { setRemoveItem } from "../../redux/table/slice"
 import { TableColumns } from "./styles/tableStyles"
-import TableHeader from "./TableHeader"
-
+import TableButton from "./TableHeader/TableButton"
 
 const columns: TableColumnsType<TableItem> = [
   {
@@ -76,8 +75,6 @@ const columns: TableColumnsType<TableItem> = [
 const TableProducts: React.FC = () => {
   const dispatch = useAppDispatch()
   const products = useAppSelector(selectTableDisplayedItems)
-  // const productById = useAppSelector((state) => selectTableById(state, id));
-  // console.log(productById?.id)
 
   const handleRemoveItem = (id: number) => {
     dispatch(setRemoveItem(id))
@@ -104,21 +101,20 @@ const TableProducts: React.FC = () => {
     ),
   })
 
-  
-
   useEffect(() => {
     dispatch(fetchAddProducts())
   }, [])
 
   return (
     <TableColumns>
-      <TableHeader />
+      <TableButton />
       <Table
         dataSource={products}
         columns={newColumns}
         bordered
         pagination={{
-          style: { backgroundColor: "#fff", margin: 0, padding: 16 }, totalBoundaryShowSizeChanger: 1
+          style: { backgroundColor: "#fff", margin: 0, padding: 16 },
+          totalBoundaryShowSizeChanger: 1,
         }}
       />
     </TableColumns>
