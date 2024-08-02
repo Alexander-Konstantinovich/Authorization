@@ -33,6 +33,11 @@ const TableSlice = createSlice({
         obj => obj.id !== action.payload,
       )
     },
+    setUpdateProduct: (state, action: PayloadAction<TableItem>) => {
+      const index = state.items.findIndex(item => item.id === action.payload.id)
+      state.items[index] = action.payload
+      state.displayedItems[index] = action.payload
+    },
   },
   extraReducers: builder => {
     builder
@@ -54,6 +59,6 @@ const TableSlice = createSlice({
       })
   },
 })
-export const { setRemoveItem, addItem, searchItem } = TableSlice.actions
+export const { setRemoveItem, addItem, searchItem, setUpdateProduct } = TableSlice.actions
 
 export default TableSlice.reducer
