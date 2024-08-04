@@ -1,8 +1,8 @@
 import { Button, message, Modal } from "antd"
 import { useState } from "react"
 import { AddItemInput, DivHeaderTable } from "../styles/tableStyles"
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
-import { selectPostTable } from "../../../redux/tablePost/selectors"
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks"
+import { selectPostTable } from "../../../../redux/tablePost/selectors"
 import {
   setCategory,
   setDescription,
@@ -10,10 +10,10 @@ import {
   setImage,
   setPrice,
   setTitle,
-} from "../../../redux/tablePost/slice"
-import { postAddProducts } from "../../../redux/tablePost/asyncActions"
-import { addItem } from "../../../redux/table/slice"
-import { selectTableDisplayedItems } from "../../../redux/table/selectors"
+} from "../../../../redux/tablePost/slice"
+import { postAddProducts } from "../../../../redux/tablePost/asyncActions"
+import { addItem } from "../../../../redux/table/slice"
+import { selectTableDisplayedItems } from "../../../../redux/table/selectors"
 import SearchTable from "./SearchTable"
 
 const TableButton = () => {

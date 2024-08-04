@@ -1,9 +1,9 @@
 import { Input } from "antd"
-import type {InputRef} from "antd"
+import type { InputRef } from "antd"
 import { ClearOutlined } from "@ant-design/icons"
-import { useAppDispatch } from "../../../redux/hooks"
+import { useAppDispatch } from "../../../../redux/hooks"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { searchItem } from "../../../redux/table/slice"
+import { searchItem } from "../../../../redux/table/slice"
 import debounce from "debounce"
 
 const SearchTable = () => {
@@ -21,16 +21,13 @@ const SearchTable = () => {
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value)
     handleSearch(event.target.value)
-    
   }
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }, [searchValue]);
-
-  
+  }, [searchValue])
 
   return (
     <Input
@@ -39,7 +36,9 @@ const SearchTable = () => {
       value={searchValue}
       onChange={onChangeInput}
       addonAfter={
-        searchValue ? <ClearOutlined onClick={() => setSearchValue('')} /> : null
+        searchValue ? (
+          <ClearOutlined onClick={() => setSearchValue("")} />
+        ) : null
       }
       ref={inputRef}
     />

@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react"
 import { Button, Input, Popconfirm, Space, Table, Typography } from "antd"
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
-import { useAppSelector, useAppDispatch } from "../../redux/hooks"
-import { selectTableDisplayedItems } from "../../redux/table/selectors"
-import { fetchAddProducts } from "../../redux/table/asyncActions"
-import type { TableItem } from "../../redux/table/types"
-import { setRemoveItem, setUpdateProduct } from "../../redux/table/slice"
+import { useAppSelector, useAppDispatch } from "../../../redux/hooks"
+import { selectTableDisplayedItems } from "../../../redux/table/selectors"
+import { fetchAddProducts } from "../../../redux/table/asyncActions"
+import type { TableItem } from "../../../redux/table/types"
+import { setRemoveItem, setUpdateProduct } from "../../../redux/table/slice"
 import { TableColumns } from "./styles/tableStyles"
 import TableButton from "./TableHeader/TableButton"
-import type { ColumnType } from "antd/es/table"
+import type { ColumnsType, ColumnType } from "antd/es/table"
 
 interface EditableColumnType<T> extends ColumnType<T> {
   editable?: boolean
+  onCell?: (record: T) => {
+    record: T
+    editable: boolean
+    dataIndex: keyof T
+    title: string
+  }
 }
 
 const columns: EditableColumnType<TableItem>[] = [
@@ -83,32 +89,29 @@ const columns: EditableColumnType<TableItem>[] = [
 const TableProducts: React.FC = () => {
   const dispatch = useAppDispatch()
   const products = useAppSelector(selectTableDisplayedItems)
-  const [editingKey, setEditingKey] = useState("") //состояние для отслеживания редактируемой строки.
-  const [formData, setFormData] = useState<TableItem | null>(null) //для хранения редактируемого продукта.
+  const [editingKey, setEditingKey] = useState("")
+  const [formData, setFormData] = useState<TableItem | null>(null)
 
   const handleRemoveItem = (id: number) => {
     dispatch(setRemoveItem(id))
   }
 
-  const isEditing = (record: TableItem) => record.id === Number(editingKey) //функция, которая определяет, редактируется ли данная строка.
+  const isEditing = (record: TableItem) => record.id === Number(editingKey)
 
   const edit = (record: TableItem) => {
-    //функция, которая запускает редактирование строки.
     setEditingKey(String(record.id))
     setFormData(record)
   }
 
   const cancel = () => {
-    //функция, которая отменяет редактирование.
     setEditingKey("")
     setFormData(null)
   }
 
   const save = async () => {
-    //функция, которая сохраняет изменения в строке.
     try {
       if (formData) {
-        await dispatch(setUpdateProduct(formData))
+        dispatch(setUpdateProduct(formData))
         setEditingKey("")
         setFormData(null)
       }
@@ -121,7 +124,6 @@ const TableProducts: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     key: keyof TableItem,
   ) => {
-    //key позволяет определить, какое именно свойство мы редактируем. keyof -означает что key может быть любым из свойств TableItem
     if (formData) {
       setFormData({ ...formData, [key]: e.target.value })
     }
@@ -132,7 +134,6 @@ const TableProducts: React.FC = () => {
     record: TableItem,
     key: keyof TableItem,
   ) => {
-    // отвечает за отображение ячейки таблицы
     return isEditing(record) ? (
       <Input
         value={formData ? formData[key] : text}
@@ -149,7 +150,7 @@ const TableProducts: React.FC = () => {
       record,
       editable: col.editable,
       dataIndex: col.dataIndex,
-      title: col.title,
+      style: col.title !== null ? { title: col.title } : {},
     }),
     render: (text: string, record: TableItem) =>
       renderEditable(text, record, col.dataIndex as keyof TableItem),
@@ -161,11 +162,17 @@ const TableProducts: React.FC = () => {
     width: 100,
     key: "action",
     fixed: "right",
-    render: products => (
+    onCell: (record: TableItem) => ({
+      record,
+      editable: false,
+      dataIndex: "action",
+      style: record.title !== null ? { title: "Action" } : {},
+    }),
+    render: (text: string, record: TableItem) => (
       <Space>
-        {isEditing(products) ? (
+        {isEditing(record) ? (
           <>
-            <Button type="primary" onClick={save}>
+            <Button type="primary" onClick={() => save()}>
               Save
             </Button>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
@@ -174,12 +181,12 @@ const TableProducts: React.FC = () => {
           </>
         ) : (
           <>
-            <Typography.Link onClick={() => edit(products)}>
+            <Typography.Link onClick={() => edit(record)}>
               <EditOutlined />
             </Typography.Link>
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => handleRemoveItem(products.id)}
+              onConfirm={() => handleRemoveItem(record.id)}
             >
               <DeleteOutlined />
             </Popconfirm>
@@ -198,7 +205,7 @@ const TableProducts: React.FC = () => {
       <TableButton />
       <Table
         dataSource={products}
-        columns={newColumns}
+        columns={newColumns as ColumnsType<any>}
         bordered
         pagination={{
           style: { backgroundColor: "#fff", margin: 0, padding: 16 },

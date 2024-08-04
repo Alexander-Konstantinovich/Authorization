@@ -1,4 +1,4 @@
-import Nav from "../components/shared/Nav"
+import Nav from "../components/common/Nav"
 import { Outlet } from "react-router"
 import { DivLayout, DivLayoutOutlet } from "./styleMainLayout"
 import { Spin } from "antd"

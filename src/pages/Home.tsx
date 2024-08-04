@@ -1,9 +1,7 @@
-import TableProducts from '../components/Table/Table'
+import TableProducts from "../components/common/Table/Table"
 
 const Home = () => {
-	return (
-		<TableProducts />
-	)
+  return <TableProducts />
 }
 
 export default Home

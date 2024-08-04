@@ -10,12 +10,12 @@ import { GlobalStyle, Title } from "./components/auth/styles/appStyles"
 import { Flex, Layout } from "antd"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
-import Nav from "./components/shared/Nav"
+import Nav from "./components/common/Nav"
 import PrivateRoute from "./components/auth/PrivateRoute"
 import MainLayout from "./layouts/MainLayout"
-import TableProducts from "./components/Table/Table"
-import Support from "./components/shared/Support"
-import Settings from "./components/shared/Settings"
+import TableProducts from "./components/common/Table/Table"
+import Support from "./components/common/Support"
+import Settings from "./components/common/Settings"
 
 const { Header, Content } = Layout
 

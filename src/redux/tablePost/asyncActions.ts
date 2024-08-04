@@ -12,7 +12,7 @@ export const postAddProducts = createAsyncThunk(
       category: category,
       description: description,
       image: image,
-    },)
+    })
     return data
   },
 )
