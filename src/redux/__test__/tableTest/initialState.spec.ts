@@ -1,5 +1,5 @@
-import tableReducer from "../table/slice"
-import { Status } from "../table/types"
+import tableReducer from "../../table/slice"
+import { Status } from "../../table/types"
 
 describe("TableSlice", () => {
   const initialState = {
