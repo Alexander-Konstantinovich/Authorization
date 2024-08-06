@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button, Input, Popconfirm, Space, Table, Typography } from "antd"
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons"
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks"
 import { selectTableDisplayedItems } from "../../../redux/table/selectors"
 import { fetchAddProducts } from "../../../redux/table/asyncActions"
@@ -11,13 +11,7 @@ import TableButton from "./TableHeader/TableButton"
 import type { ColumnsType, ColumnType } from "antd/es/table"
 
 interface EditableColumnType<T> extends ColumnType<T> {
-  editable?: boolean
-  onCell?: (record: T) => {
-    record: T
-    editable: boolean
-    dataIndex: keyof T
-    title: string
-  }
+  editable?: string
 }
 
 const columns: EditableColumnType<TableItem>[] = [
@@ -32,14 +26,14 @@ const columns: EditableColumnType<TableItem>[] = [
     dataIndex: "title",
     key: "title",
     width: "20%",
-    editable: true,
+    editable: "true",
   },
   {
     title: "Price",
     dataIndex: "price",
     key: "price",
     width: "7%",
-    editable: true,
+    editable: "true",
     sorter: (a, b) => parseFloat(a.price) - parseFloat(b.price),
   },
   {
@@ -68,21 +62,21 @@ const columns: EditableColumnType<TableItem>[] = [
     ],
     onFilter: (value, record) => record.category.indexOf(value as string) === 0,
     sortDirections: ["descend"],
-    editable: true,
+    editable: "true",
   },
   {
     title: "Description",
     dataIndex: "description",
     key: "description",
     ellipsis: true,
-    editable: true,
+    editable: "true",
   },
   {
     title: "Image",
     dataIndex: "image",
     key: "image",
     ellipsis: true,
-    editable: true,
+    editable: "true",
   },
 ]
 
@@ -149,7 +143,6 @@ const TableProducts: React.FC = () => {
     onCell: (record: TableItem) => ({
       record,
       editable: col.editable,
-      dataIndex: col.dataIndex,
       style: col.title !== null ? { title: col.title } : {},
     }),
     render: (text: string, record: TableItem) =>
@@ -164,19 +157,20 @@ const TableProducts: React.FC = () => {
     fixed: "right",
     onCell: (record: TableItem) => ({
       record,
-      editable: false,
-      dataIndex: "action",
+      editable: "false",
       style: record.title !== null ? { title: "Action" } : {},
     }),
     render: (text: string, record: TableItem) => (
       <Space>
         {isEditing(record) ? (
           <>
-            <Button type="primary" onClick={() => save()}>
-              Save
+            <Button type="primary" onClick={() => save()} style={{width: 25}}>
+            <CheckCircleOutlined />
             </Button>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <Button>Cancel</Button>
+              <Button style={{width: 25}}>
+              <CloseCircleOutlined />
+              </Button>
             </Popconfirm>
           </>
         ) : (
@@ -207,6 +201,7 @@ const TableProducts: React.FC = () => {
         dataSource={products}
         columns={newColumns as ColumnsType<any>}
         bordered
+        rowKey={"id"}
         pagination={{
           style: { backgroundColor: "#fff", margin: 0, padding: 16 },
           totalBoundaryShowSizeChanger: 1,
