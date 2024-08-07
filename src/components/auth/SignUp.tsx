@@ -12,13 +12,8 @@ import {
 import { selectSignUp } from "../../redux/signUp/selectors"
 import { DivButton, DivForm } from "./styles/userStyles"
 import { useNavigate } from "react-router-dom"
+import type { UserType } from "../../redux/signIn/types"
 
-interface UserType {
-  email?: string
-  password?: string
-  copyPassword?: string
-  remember?: string
-}
 
 const SignUp = () => {
   const navigate = useNavigate()

@@ -15,7 +15,7 @@ import PrivateRoute from "./components/auth/PrivateRoute"
 import MainLayout from "./layouts/MainLayout"
 import TableProducts from "./components/common/Table/Table"
 import Support from "./components/common/Support"
-import Settings from "./components/common/Settings"
+import Settings from "./components/common/Settings/Settings"
 
 const { Header, Content } = Layout
 

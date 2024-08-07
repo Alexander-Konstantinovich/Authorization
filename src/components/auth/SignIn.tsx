@@ -14,13 +14,9 @@ import { selectSignIn } from "../../redux/signIn/selectors"
 import { DivAuthDetails, DivButton, DivForm } from "./styles/userStyles"
 import { Link, useNavigate } from "react-router-dom"
 import AuthDetails from "./AuthDetails"
+import type { UserType } from "../../redux/signIn/types"
 
-type UserType = {
-  email?: string
-  password?: string
-  copyPassword?: string
-  remember?: string
-}
+
 
 const SignIn = () => {
   const { email, password, error, isLoading, isAuthorize } =
