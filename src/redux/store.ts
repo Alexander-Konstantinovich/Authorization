@@ -5,6 +5,7 @@ import login from "../redux/signIn/slice"
 import table from '../redux/table/slice'
 import postTable from "../redux/tablePost/slice"
 import editTable from "../redux/tableEdit/slice"
+import updatePassword from "../redux/changePassword/slice"
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     table,
     postTable,
     editTable,
+    updatePassword,
   },
 })
 

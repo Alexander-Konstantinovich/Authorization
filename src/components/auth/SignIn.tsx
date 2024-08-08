@@ -34,7 +34,7 @@ const SignIn = () => {
         dispatch(setAddPassword(""))
         dispatch(setIsAuthorize(true))
         dispatch(setIsLoading(false))
-        navigate("/")
+        navigate("/table")
       })
       .catch(error => {
         console.log(error.message)

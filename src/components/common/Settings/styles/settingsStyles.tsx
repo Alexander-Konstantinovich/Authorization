@@ -16,3 +16,7 @@ export const StyledContent = styled(Content)`
   line-height: 120px;
   background-color: #fff;	
 `;
+
+export const InputBlur = styled.div`
+  opacity: 0.9;
+`
