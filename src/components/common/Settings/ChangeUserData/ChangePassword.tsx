@@ -3,11 +3,15 @@ import { auth } from "../../../../fairbase"
 import Title from "antd/es/typography/Title"
 import { InputBlur } from "../styles/settingsStyles"
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks"
-import { setAddError } from "../../../../redux/signIn/slice"
+import {
+  setAddError,
+  setCopyPasswordChange,
+} from "../../../../redux/signUp/slice"
 import { selectSignUp } from "../../../../redux/signUp/selectors"
 import {
   setAddCopyPassword,
   setAddPassword,
+  setIsLoading,
   setPasswordCheck,
   setUpdatePassword,
 } from "../../../../redux/signUp/slice"
@@ -21,7 +25,7 @@ import { useState } from "react"
 
 const ChangePassword = () => {
   const dispatch = useAppDispatch()
-  const { password, error, isLoading, copyPassword, passwordCheck } =
+  const { password, passwordCheck, error, copyPasswordChange } =
     useAppSelector(selectSignUp)
 
   const [isOldPasswordVerified, setIsOldPasswordVerified] = useState(false)
@@ -38,16 +42,14 @@ const ChangePassword = () => {
         })
         .catch(error => {
           console.log(error.message)
-          dispatch(setAddError("Неверный старый пароль"))
+          dispatch(setAddError("Invalid old password"))
         })
-    } else {
-      console.error("Не удалось получить информацию о пользователе.")
     }
   }
 
   function update() {
-    if (password !== copyPassword) {
-      dispatch(setAddError("Пароли не совпадают"))
+    if (password !== copyPasswordChange) {
+      dispatch(setAddError("Passwords don't match"))
       return
     }
 
@@ -55,14 +57,15 @@ const ChangePassword = () => {
     if (user) {
       updatePassword(user, password)
         .then(() => {
-          console.log("Пароль успешно обновлён")
           dispatch(setUpdatePassword(password))
+          dispatch(setAddPassword(""))
+          dispatch(setCopyPasswordChange(""))
+          dispatch(setAddError(""))
+          console.log("пароль обновлён")
         })
         .catch(error => {
           console.log(error.message)
         })
-    } else {
-      console.error("Не удалось получить информацию о пользователе.")
     }
   }
 
@@ -81,12 +84,14 @@ const ChangePassword = () => {
         style={{ maxWidth: 600, marginTop: 40 }}
         initialValues={{ remember: true }}
         autoComplete="off"
+        onFinish={update}
+        onFinishFailed={update}
       >
         {!isOldPasswordVerified ? (
           <Form.Item<UserType>
             label="Password"
-            name="password"
-            rules={[{ required: true, message: "passwords don't match!" }]}
+            name="passwordCheck"
+            rules={[{ required: true, message: "Please enter your password!" }]}
           >
             <Input.Password
               placeholder="Please enter your password"
@@ -95,12 +100,12 @@ const ChangePassword = () => {
             />
             <Button
               type="primary"
-              htmlType="submit"
               style={{ marginBottom: 10, marginTop: 20 }}
               onClick={verifyOldPassword}
             >
               Check
             </Button>
+            {error ? <p style={{ color: "red" }}>{error}</p> : ""}
           </Form.Item>
         ) : (
           <InputBlur>
@@ -120,26 +125,22 @@ const ChangePassword = () => {
 
             <Form.Item<UserType>
               label="Again new password"
-              name="copyPassword"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
+              name="copyPasswordChange"
+              rules={[]}
             >
               <Input.Password
                 placeholder="Please enter your password again"
-                value={copyPassword}
-                onChange={e => dispatch(setAddCopyPassword(e.target.value))}
+                value={copyPasswordChange}
+                onChange={e => dispatch(setCopyPasswordChange(e.target.value))}
               />
               <Button
                 type="primary"
                 htmlType="submit"
-                onClick={update}
                 style={{ marginBottom: 10, marginTop: 20 }}
               >
                 ChangePassword
               </Button>
+              {error ? <p style={{ color: "red" }}>{error}</p> : ""}
             </Form.Item>
           </InputBlur>
         )}

@@ -23,8 +23,7 @@ const items: MenuItem[] = [
 ]
 
 const Nav: React.FC = () => {
-  const onClick: MenuProps["onClick"] = e => {
-    console.log("click ", e)
+  const onClick: MenuProps["onClick"] = () => {
   }
   return (
     <Menu

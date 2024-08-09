@@ -3,6 +3,7 @@ export interface InitialSignUp {
   password: string
   copyPassword: string
   passwordCheck: string
+  copyPasswordChange: string
   updatePassword:string
   error: string
   isLoading: boolean

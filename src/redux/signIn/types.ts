@@ -11,4 +11,6 @@ export type UserType = {
   password?: string
   copyPassword?: string
   remember?: string
+  passwordCheck?: string
+  copyPasswordChange?: string
 }
