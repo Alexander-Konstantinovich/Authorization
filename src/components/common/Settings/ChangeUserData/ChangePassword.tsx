@@ -9,9 +9,7 @@ import {
 } from "../../../../redux/signUp/slice"
 import { selectSignUp } from "../../../../redux/signUp/selectors"
 import {
-  setAddCopyPassword,
   setAddPassword,
-  setIsLoading,
   setPasswordCheck,
   setUpdatePassword,
 } from "../../../../redux/signUp/slice"
@@ -93,55 +91,61 @@ const ChangePassword = () => {
             name="passwordCheck"
             rules={[{ required: true, message: "Please enter your password!" }]}
           >
-            <Input.Password
-              placeholder="Please enter your password"
-              value={passwordCheck}
-              onChange={e => dispatch(setPasswordCheck(e.target.value))}
-            />
-            <Button
-              type="primary"
-              style={{ marginBottom: 10, marginTop: 20 }}
-              onClick={verifyOldPassword}
-            >
-              Check
-            </Button>
-            {error ? <p style={{ color: "red" }}>{error}</p> : ""}
-          </Form.Item>
-        ) : (
-          <InputBlur>
-            <Form.Item<UserType>
-              label="New password"
-              name="password"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
+            <>
               <Input.Password
-                placeholder="Please enter your new password"
-                value={password}
-                onChange={e => dispatch(setAddPassword(e.target.value))}
-              />
-            </Form.Item>
-
-            <Form.Item<UserType>
-              label="Again new password"
-              name="copyPasswordChange"
-              rules={[]}
-            >
-              <Input.Password
-                placeholder="Please enter your password again"
-                value={copyPasswordChange}
-                onChange={e => dispatch(setCopyPasswordChange(e.target.value))}
+                placeholder="Please enter your password"
+                value={passwordCheck}
+                onChange={e => dispatch(setPasswordCheck(e.target.value))}
               />
               <Button
                 type="primary"
-                htmlType="submit"
                 style={{ marginBottom: 10, marginTop: 20 }}
+                onClick={verifyOldPassword}
               >
-                ChangePassword
+                Check
               </Button>
               {error ? <p style={{ color: "red" }}>{error}</p> : ""}
-            </Form.Item>
+            </>
+          </Form.Item>
+        ) : (
+          <InputBlur>
+            <>
+              <Form.Item<UserType>
+                label="New password"
+                name="password"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Please enter your new password"
+                  value={password}
+                  onChange={e => dispatch(setAddPassword(e.target.value))}
+                />
+              </Form.Item>
+
+              <Form.Item<UserType>
+                label="Again new password"
+                name="copyPasswordChange"
+                rules={[]}
+              >
+                <Input.Password
+                  placeholder="Please enter your password again"
+                  value={copyPasswordChange}
+                  onChange={e =>
+                    dispatch(setCopyPasswordChange(e.target.value))
+                  }
+                />
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{ marginBottom: 10, marginTop: 20 }}
+                >
+                  ChangePassword
+                </Button>
+                {error ? <p style={{ color: "red" }}>{error}</p> : ""}
+              </Form.Item>
+            </>
           </InputBlur>
         )}
       </Form>

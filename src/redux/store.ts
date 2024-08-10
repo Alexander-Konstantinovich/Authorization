@@ -1,22 +1,16 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { configureStore } from "@reduxjs/toolkit"
-import registration from "../redux/signUp/slice"
-import login from "../redux/signIn/slice"
-import table from '../redux/table/slice'
-import postTable from "../redux/tablePost/slice"
-import editTable from "../redux/tableEdit/slice"
-import updatePassword from "../redux/changePassword/slice"
+import persistStore from "redux-persist/es/persistStore"
+import persistedReducer from "./persistedReducer"
 
 export const store = configureStore({
-  reducer: {
-    registration,
-    login,
-    table,
-    postTable,
-    editTable,
-    updatePassword,
-  },
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
+export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
