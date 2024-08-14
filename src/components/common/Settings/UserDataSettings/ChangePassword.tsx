@@ -15,11 +15,12 @@ import {
 } from "../../../../redux/signUp/slice"
 import {
   EmailAuthProvider,
+  onAuthStateChanged,
   reauthenticateWithCredential,
   updatePassword,
 } from "firebase/auth"
 import type { UserType } from "../../../../redux/signIn/types"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const ChangePassword = () => {
   const dispatch = useAppDispatch()
@@ -27,6 +28,20 @@ const ChangePassword = () => {
     useAppSelector(selectSignUp)
 
   const [isOldPasswordVerified, setIsOldPasswordVerified] = useState(false)
+
+  const [user, setUser] = useState<any>(null)
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user:any) => {
+      if (user) {
+        setUser(user)
+      } else { 
+        setUser(null)
+      }
+    })
+    return () => {
+      listen()
+    }
+  }, [])
 
   const verifyOldPassword = () => {
     const user = auth.currentUser
@@ -74,6 +89,7 @@ const ChangePassword = () => {
       >
         Change your password
       </Title>
+      {user && <p style={{ display: "flex", margin: 15, padding: 8, border:"2px solid", borderRadius: 15,width: 210, lineHeight: "normal", borderColor: "#1dbbb0", fontSize: 14, fontWeight: 500}}>{`Signed in as ${user.email}`}</p>}
 
       <Form
         name="basic"
@@ -148,6 +164,7 @@ const ChangePassword = () => {
             </>
           </InputBlur>
         )}
+        
       </Form>
     </>
   )

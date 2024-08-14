@@ -20,3 +20,8 @@ export const StyledContent = styled(Content)`
 export const InputBlur = styled.div`
   opacity: 0.9;
 `
+
+export const DivLogOutSettings = styled.div`
+  display: flex;
+  margin-left: 200px;
+`
