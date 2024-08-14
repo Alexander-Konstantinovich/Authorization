@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd"
 import { auth } from "../../../../fairbase"
 import Title from "antd/es/typography/Title"
-import { InputBlur } from "../styles/settingsStyles"
+import { InputBlur, StyledUserEmail } from "../styles/settingsStyles"
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks"
 import {
   setAddError,
@@ -89,7 +89,7 @@ const ChangePassword = () => {
       >
         Change your password
       </Title>
-      {user && <p style={{ display: "flex", margin: 15, padding: 8, border:"2px solid", borderRadius: 15,width: 210, lineHeight: "normal", borderColor: "#1dbbb0", fontSize: 14, fontWeight: 500}}>{`Signed in as ${user.email}`}</p>}
+      {user && <StyledUserEmail>{`Signed in as ${user.email}`}</StyledUserEmail>}
 
       <Form
         name="basic"

@@ -6,28 +6,25 @@ import { auth } from "../../../../fairbase"
 import { useNavigate } from "react-router"
 
 const LogOut = () => {
-	const navigate = useNavigate()
-	
-	
+  const navigate = useNavigate()
 
   function userSignOut() {
     signOut(auth)
       .then(() => {
-				console.log("success")
-				navigate("/login")
-			})
+        console.log("success")
+        navigate("/login")
+      })
       .catch(er => console.log(er))
   }
 
-	return (
-		<DivLogOutSettings>
-			<Button type="primary" style={{}} onClick={userSignOut}>
-				Logout
-			</Button>
-			<DeleteUser />
-			
-		</DivLogOutSettings>
-	)
+  return (
+    <DivLogOutSettings>
+      <Button type="default" onClick={userSignOut}>
+        Logout
+      </Button>
+      <DeleteUser />
+    </DivLogOutSettings>
+  )
 }
 
 export default LogOut
