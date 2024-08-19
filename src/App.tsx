@@ -16,16 +16,18 @@ import MainLayout from "./layouts/MainLayout"
 import TableProducts from "./components/common/Table/Table"
 import Support from "./components/common/Support"
 import Settings from "./components/common/Settings/Settings"
+import { useTranslation } from "react-i18next"
 
 const { Header, Content } = Layout
 
 const App: React.FC = () => {
+  const { t } = useTranslation()
   return (
     <Flex gap="middle" wrap>
       <GlobalStyle />
       <Layout style={layoutStyle}>
         <Header style={headerStyle}>
-          <Title>React authorization</Title>
+          <Title>{t("header")}</Title>
         </Header>
         <Content style={contentStyle}>
           <Routes>

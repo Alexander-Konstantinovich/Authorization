@@ -4,8 +4,10 @@ import DeleteUser from "./DeleteUser"
 import { signOut } from "firebase/auth"
 import { auth } from "../../../../fairbase"
 import { useNavigate } from "react-router"
+import { useTranslation } from "react-i18next"
 
 const LogOut = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   function userSignOut() {
@@ -20,7 +22,7 @@ const LogOut = () => {
   return (
     <DivLogOutSettings>
       <Button type="default" onClick={userSignOut}>
-        Logout
+        {t("settings.logout")}
       </Button>
       <DeleteUser />
     </DivLogOutSettings>

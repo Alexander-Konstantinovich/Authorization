@@ -5,6 +5,9 @@ import { persistor, store } from "./redux/store"
 import "./index.css"
 import { BrowserRouter } from "react-router-dom"
 import { PersistGate } from "redux-persist/integration/react"
+import i18n from "./i118n"
+
+i18n.changeLanguage(i18n.language);
 
 const container = document.getElementById("root")
 

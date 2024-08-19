@@ -2,29 +2,33 @@ import { Menu } from "antd"
 import type { MenuProps } from "antd"
 import { HomeOutlined, TableOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
 type MenuItem = Required<MenuProps>["items"][number]
 
-const items: MenuItem[] = [
-  {
-    key: "navigation",
-    label: "Navigation",
-    icon: <HomeOutlined />,
-    style:{height: 53, paddingTop: 3},
-    children: [
-      { key: "table", label: <Link to="/table">Table</Link>, icon: <TableOutlined /> , style: { paddingRight:38}},
-      { key: "support", label: <Link to="/support">Support</Link>, icon:<QuestionCircleOutlined />},
-      { key: "settings", label: <Link to="/settings">Settings</Link>, icon: <SettingOutlined />},
-    ],
-  },
-  {
-    type: "divider",
-  },
-]
 
 const Nav: React.FC = () => {
   const onClick: MenuProps["onClick"] = () => {
   }
+  const { t } = useTranslation()
+
+  const items: MenuItem[] = [
+    {
+      key: "navigation",
+      label: `${t("navigation.navigation")}`,
+      icon: <HomeOutlined />,
+      style:{height: 53, paddingTop: 3},
+      children: [
+        { key: "table", label: <Link to="/table">{t("navigation.table")}</Link>, icon: <TableOutlined /> , style: { paddingRight:38}},
+        { key: "support", label: <Link to="/support">{t("navigation.support")}</Link>, icon:<QuestionCircleOutlined />},
+        { key: "settings", label: <Link to="/settings">{t("navigation.settings")}</Link>, icon: <SettingOutlined />},
+      ],
+    },
+    {
+      type: "divider",
+    },
+  ]
+
   return (
     <Menu
       onClick={onClick}

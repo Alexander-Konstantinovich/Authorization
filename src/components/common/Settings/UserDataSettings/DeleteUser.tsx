@@ -2,8 +2,10 @@ import { Button, Popconfirm } from "antd"
 import { auth } from "../../../../fairbase"
 import { deleteUser } from "firebase/auth"
 import { useNavigate } from "react-router"
+import { useTranslation } from "react-i18next"
 
 const DeleteUser = () => {
+  const { t } = useTranslation()
   const user = auth.currentUser
 	const navigate = useNavigate()
 
@@ -22,8 +24,8 @@ const DeleteUser = () => {
 
   return (
     <Popconfirm title="Sure to delete?" onConfirm={deleteAccount}>
-      <Button type="primary" danger style={{ marginLeft: 37 }}>
-        Delete account
+      <Button type="primary" danger style={{ marginLeft: 37, maxWidth: 124 }}>
+        {t("settings.delete account")}
       </Button>
     </Popconfirm>
   )

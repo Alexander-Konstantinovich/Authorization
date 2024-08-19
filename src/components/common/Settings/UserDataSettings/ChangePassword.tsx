@@ -21,15 +21,18 @@ import {
 } from "firebase/auth"
 import type { UserType } from "../../../../redux/signIn/types"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 const ChangePassword = () => {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { password, passwordCheck, error, copyPasswordChange } =
     useAppSelector(selectSignUp)
 
   const [isOldPasswordVerified, setIsOldPasswordVerified] = useState(false)
+  
 
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<any>(null) //для активного юзера
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user:any) => {
       if (user) {
@@ -52,6 +55,7 @@ const ChangePassword = () => {
         .then(() => {
           setIsOldPasswordVerified(true)
           dispatch(setAddError(""))
+          dispatch(setPasswordCheck(""))
         })
         .catch(error => {
           console.log(error.message)
@@ -87,9 +91,9 @@ const ChangePassword = () => {
       <Title
         style={{ textAlign: "left", margin: 15, paddingTop: 20, fontSize: 20 }}
       >
-        Change your password
+        {t("settings.change your password")}
       </Title>
-      {user && <StyledUserEmail>{`Signed in as ${user.email}`}</StyledUserEmail>}
+      {user && <StyledUserEmail>{`${t("settings.signed in as")} ${user.email}`}</StyledUserEmail>}
 
       <Form
         name="basic"
@@ -103,13 +107,13 @@ const ChangePassword = () => {
       >
         {!isOldPasswordVerified ? (
           <Form.Item<UserType>
-            label="Password"
+            label={t("settings.password")}
             name="passwordCheck"
             rules={[{ required: true, message: "Please enter your password!" }]}
           >
             <>
               <Input.Password
-                placeholder="Please enter your password"
+                placeholder={t("settings.please enter your password")}
                 value={passwordCheck}
                 onChange={e => dispatch(setPasswordCheck(e.target.value))}
               />
@@ -118,7 +122,7 @@ const ChangePassword = () => {
                 style={{ marginBottom: 10, marginTop: 20 }}
                 onClick={verifyOldPassword}
               >
-                Check
+                {t("settings.check")}
               </Button>
               {error ? <p style={{ color: "red" }}>{error}</p> : ""}
             </>
@@ -127,26 +131,26 @@ const ChangePassword = () => {
           <InputBlur>
             <>
               <Form.Item<UserType>
-                label="New password"
+                label={t("settings.new password")}
                 name="password"
                 rules={[
                   { required: true, message: "Please input your password!" },
                 ]}
               >
                 <Input.Password
-                  placeholder="Please enter your new password"
+                  placeholder={t("settings.please enter your new password")}
                   value={password}
                   onChange={e => dispatch(setAddPassword(e.target.value))}
                 />
               </Form.Item>
 
               <Form.Item<UserType>
-                label="Again new password"
+                label={t("settings.again new password")}
                 name="copyPasswordChange"
                 rules={[]}
               >
                 <Input.Password
-                  placeholder="Please enter your password again"
+                  placeholder={t("settings.please enter your password again")}
                   value={copyPasswordChange}
                   onChange={e =>
                     dispatch(setCopyPasswordChange(e.target.value))
@@ -157,7 +161,7 @@ const ChangePassword = () => {
                   htmlType="submit"
                   style={{ marginBottom: 10, marginTop: 20 }}
                 >
-                  ChangePassword
+                  {t("settings.change password")}
                 </Button>
                 {error ? <p style={{ color: "red" }}>{error}</p> : ""}
               </Form.Item>
