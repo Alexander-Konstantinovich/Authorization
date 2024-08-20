@@ -1,4 +1,4 @@
-import { Layout, Spin } from "antd"
+import { Divider, Layout, Spin } from "antd"
 import styled from "styled-components"
 
 const { Content } = Layout
@@ -39,4 +39,10 @@ export const StyledSpinSignedUser = styled(Spin)`
   display: flex;
   margin-left: 100px;
   margin-top: 25px;
+`
+export const StyledDivider = styled(Divider)`
+  padding-top: 15px !important;
+  font-size: 22px !important;
+  border-width: 9px !important;
+  border-color: #8c8b8b !important;
 `
