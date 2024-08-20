@@ -1,4 +1,4 @@
-import { Layout } from "antd"
+import { Layout, Spin } from "antd"
 import styled from "styled-components"
 
 const { Content } = Layout
@@ -17,10 +17,6 @@ export const StyledContent = styled(Content)`
   background-color: #fff;
 `
 
-export const InputBlur = styled.div`
-  opacity: 0.9;
-`
-
 export const DivLogOutSettings = styled.div`
   display: flex;
   margin-left: 363px;
@@ -37,4 +33,10 @@ export const StyledUserEmail = styled.p`
   border-color: #1dbbb0;
   font-size: 14px;
   font-weight: 500;
+`
+
+export const StyledSpinSignedUser = styled(Spin)`
+  display: flex;
+  margin-left: 100px;
+  margin-top: 25px;
 `

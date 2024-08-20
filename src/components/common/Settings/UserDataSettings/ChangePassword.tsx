@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd"
 import { auth } from "../../../../fairbase"
 import Title from "antd/es/typography/Title"
-import { InputBlur, StyledUserEmail } from "../styles/settingsStyles"
+import { StyledSpinSignedUser, StyledUserEmail } from "../styles/settingsStyles"
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks"
 import {
   setAddError,
@@ -30,14 +30,13 @@ const ChangePassword = () => {
     useAppSelector(selectSignUp)
 
   const [isOldPasswordVerified, setIsOldPasswordVerified] = useState(false)
-  
 
   const [user, setUser] = useState<any>(null) //для активного юзера
   useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user:any) => {
+    const listen = onAuthStateChanged(auth, (user: any) => {
       if (user) {
         setUser(user)
-      } else { 
+      } else {
         setUser(null)
       }
     })
@@ -93,7 +92,11 @@ const ChangePassword = () => {
       >
         {t("settings.change your password")}
       </Title>
-      {user && <StyledUserEmail>{`${t("settings.signed in as")} ${user.email}`}</StyledUserEmail>}
+      {user ? (
+        <StyledUserEmail>{`${t("settings.signed in as")} ${user.email}`}</StyledUserEmail>
+      ) : (
+        <StyledSpinSignedUser />
+      )}
 
       <Form
         name="basic"
@@ -111,7 +114,7 @@ const ChangePassword = () => {
             name="passwordCheck"
             rules={[{ required: true, message: "Please enter your password!" }]}
           >
-            <>
+            <div>
               <Input.Password
                 placeholder={t("settings.please enter your password")}
                 value={passwordCheck}
@@ -125,50 +128,45 @@ const ChangePassword = () => {
                 {t("settings.check")}
               </Button>
               {error ? <p style={{ color: "red" }}>{error}</p> : ""}
-            </>
+            </div>
           </Form.Item>
         ) : (
-          <InputBlur>
-            <>
-              <Form.Item<UserType>
-                label={t("settings.new password")}
-                name="password"
-                rules={[
-                  { required: true, message: "Please input your password!" },
-                ]}
-              >
-                <Input.Password
-                  placeholder={t("settings.please enter your new password")}
-                  value={password}
-                  onChange={e => dispatch(setAddPassword(e.target.value))}
-                />
-              </Form.Item>
+          <div>
+            <Form.Item<UserType>
+              label={t("settings.new password")}
+              name="password"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
+              <Input.Password
+                placeholder={t("settings.please enter your new password")}
+                value={password}
+                onChange={e => dispatch(setAddPassword(e.target.value))}
+              />
+            </Form.Item>
 
-              <Form.Item<UserType>
-                label={t("settings.again new password")}
-                name="copyPasswordChange"
-                rules={[]}
+            <Form.Item<UserType>
+              label={t("settings.again new password")}
+              name="copyPasswordChange"
+              rules={[]}
+            >
+              <Input.Password
+                placeholder={t("settings.please enter your password again")}
+                value={copyPasswordChange}
+                onChange={e => dispatch(setCopyPasswordChange(e.target.value))}
+              />
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ marginBottom: 10, marginTop: 20 }}
               >
-                <Input.Password
-                  placeholder={t("settings.please enter your password again")}
-                  value={copyPasswordChange}
-                  onChange={e =>
-                    dispatch(setCopyPasswordChange(e.target.value))
-                  }
-                />
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  style={{ marginBottom: 10, marginTop: 20 }}
-                >
-                  {t("settings.change password")}
-                </Button>
-                {error ? <p style={{ color: "red" }}>{error}</p> : ""}
-              </Form.Item>
-            </>
-          </InputBlur>
+                {t("settings.change password")}
+              </Button>
+              {error ? <p style={{ color: "red" }}>{error}</p> : ""}
+            </Form.Item>
+          </div>
         )}
-        
       </Form>
     </>
   )
