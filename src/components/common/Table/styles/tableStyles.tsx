@@ -22,7 +22,3 @@ export const DivHeaderTable = styled.div<{ mode?: string }>`
 export const AddItemInput = styled(Input)`
 	margin-bottom: 10px;
 `
-
-export const updateItemButton = styled.div`
-  
-`

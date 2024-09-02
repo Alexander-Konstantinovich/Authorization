@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.6",
-    "antd": "^5.19.0",
+    "antd": "^5.20.2",
     "axios": "^1.7.2",
     "debounce": "^2.1.0",
     "firebase": "^10.12.2",

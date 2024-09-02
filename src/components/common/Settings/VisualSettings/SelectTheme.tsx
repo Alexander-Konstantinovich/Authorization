@@ -1,33 +1,38 @@
 import { Button, ConfigProvider, Radio } from "antd"
 import Title from "antd/es/typography/Title"
 import { useState } from "react"
-import "../../../../colors.css"
+import "../styles/colors.module.css"
 
 const ThemeSwitcher = () => {
   const [currentTheme, setCurrentTheme] = useState("light")
-  const lightTheme = {
-    color: "var(--primary-color)",
-    colorTextBase: "var( --text-base-color)",
-    colorTextLightSolid: "var(--text-light-solid-color)",
-  }
 
-  const darkTheme = {
-    colorPrimary: "var(--primary-color-dark)",
-    colorTextBase: "var(--text-base-color-dark)",
-    colorTextLightSolid: "var(--text-light-solid-color-dark)",
+  const themeConfig = {
+    token: {
+      colorPrimary:
+      currentTheme === "light"
+      ? "#1890ff"
+      : "#1a7656",
+      colorText:
+      currentTheme === "light"
+        ? "var(--text-base-color)"
+        : "var(--text-base-color-dark)",
+      colorTextLightSolid:
+        currentTheme === "light"
+          ? "var(--text-light-solid-color)"
+          : "var(--text-light-solid-color-dark)",
+      colorBgContainer:
+        currentTheme === "light"
+          ? "var(--background-color)"
+          : "var(--background-color-dark)",
+    },
   }
 
   const handleThemeChange = (e: any) => {
     setCurrentTheme(e.target.value)
   }
-
   return (
     <>
-      <ConfigProvider
-        theme={{
-          token: currentTheme === "light" ? lightTheme : darkTheme,
-        }}
-      >
+      <ConfigProvider theme={themeConfig}>
         <Title
           style={{
             textAlign: "left",
